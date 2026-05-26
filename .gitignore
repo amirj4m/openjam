@@ -1,0 +1,37 @@
+# Local environment
+.env
+.env.local
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg
+
+# Node (for future tooling)
+node_modules/
+
+# Local data dumps (large, generated artifacts)
+data/sql/*.dump
+data/sql/*.tar
+data/exports/
+
+# Logs
+*.log
