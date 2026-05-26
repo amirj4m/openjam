@@ -10,6 +10,14 @@ binding = "DB"
 database_name = "openjam"
 database_id = "179e8445-002d-44fb-811d-9f4ff1b15a99"
 
+# Per-IP rate limit: 60 requests per 60 seconds on /v1/* endpoints.
+# Stops scrapers / abusers without blocking legitimate app traffic.
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
 [[routes]]
 pattern = "openjam.amirj4m.com"
 custom_domain = true
@@ -18,5 +26,5 @@ custom_domain = true
 enabled = true
 
 [vars]
-DATASET_VERSION = "0.2.0"
+DATASET_VERSION = "0.4.0"
 SCHEMA_VERSION = "1.0.0"

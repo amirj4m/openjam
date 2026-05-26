@@ -11,6 +11,7 @@ import { cors } from "hono/cors";
 
 type Bindings = {
   DB: D1Database;
+  RATE_LIMITER: { limit: (opts: { key: string }) => Promise<{ success: boolean }> };
   DATASET_VERSION: string;
   SCHEMA_VERSION: string;
 };
@@ -25,6 +26,23 @@ app.use(
     maxAge: 86400,
   }),
 );
+
+// Per-IP rate limit: 60 req/min. Legitimate apps fit comfortably; bots
+// and scrapers get 429. The limiter is a free Cloudflare primitive.
+app.use("/v1/*", async (c, next) => {
+  const ip = c.req.header("CF-Connecting-IP") ?? "anonymous";
+  const { success } = await c.env.RATE_LIMITER.limit({ key: ip });
+  if (!success) {
+    return c.json(
+      {
+        error: "rate_limited",
+        message: "Too many requests. Limit is 60 per minute per IP.",
+      },
+      429,
+    );
+  }
+  await next();
+});
 
 // Cache responses at the edge for 5 minutes; long enough to be useful,
 // short enough that a dataset re-deploy is reflected quickly.
