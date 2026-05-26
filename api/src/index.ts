@@ -69,6 +69,10 @@ app.get("/", (c) =>
       "GET /v1/random?level=B1&lang=fa&category=food",
       "GET /v1/categories",
       "GET /v1/categories/:slug/words",
+      "GET /v1/search?q=...&from=en|fa&mode=prefix|contains|exact&limit=20",
+      "GET /v1/autocomplete?q=...&lang=en|fa&limit=10",
+      "GET /v1/bulk/manifest",
+      "GET /v1/bulk/category/:slug?lang=fa",
     ],
   }),
 );
@@ -398,6 +402,217 @@ app.get("/v1/categories/:slug/words", async (c) => {
   }));
 
   return c.json({ category: slug, data });
+});
+
+// --- /v1/search (English prefix/contains, or reverse from any language) ---
+app.get("/v1/search", async (c) => {
+  const q = c.req.query("q")?.trim();
+  if (!q) return c.json({ error: "q parameter required" }, 400);
+
+  const from = (c.req.query("from") ?? "en").toLowerCase();
+  const mode = c.req.query("mode") ?? "prefix";
+  const limit = Math.min(parseInt(c.req.query("limit") ?? "20", 10), 100);
+
+  if (mode !== "prefix" && mode !== "contains" && mode !== "exact") {
+    return c.json({ error: "mode must be prefix, contains, or exact" }, 400);
+  }
+
+  const pattern =
+    mode === "exact" ? q : mode === "contains" ? `%${q}%` : `${q}%`;
+  const op = mode === "exact" ? "=" : "LIKE";
+
+  if (from === "en") {
+    const { results } = await c.env.DB
+      .prepare(
+        `SELECT english, frequency_rank, level
+         FROM words
+         WHERE english ${op} ?
+         ORDER BY frequency_rank IS NULL, frequency_rank ASC
+         LIMIT ?`,
+      )
+      .bind(pattern.toLowerCase(), limit)
+      .all();
+    return c.json({ query: q, from, mode, count: results.length, results });
+  }
+
+  // Reverse search: query against sense_translations.meaning for given language.
+  const { results } = await c.env.DB
+    .prepare(
+      `SELECT DISTINCT w.english, w.frequency_rank, w.level,
+              t.meaning AS matched_meaning,
+              s.part_of_speech, s.definition_en
+       FROM sense_translations t
+       JOIN word_senses s ON s.id = t.sense_id
+       JOIN words w ON w.id = s.word_id
+       WHERE t.language_code = ? AND t.meaning ${op} ?
+       ORDER BY w.frequency_rank IS NULL, w.frequency_rank ASC
+       LIMIT ?`,
+    )
+    .bind(from, pattern, limit)
+    .all();
+  return c.json({ query: q, from, mode, count: results.length, results });
+});
+
+// --- /v1/autocomplete (fast prefix suggestions) ---
+app.get("/v1/autocomplete", async (c) => {
+  const q = c.req.query("q")?.trim();
+  if (!q) return c.json({ error: "q parameter required" }, 400);
+
+  const lang = (c.req.query("lang") ?? "en").toLowerCase();
+  const limit = Math.min(parseInt(c.req.query("limit") ?? "10", 10), 50);
+
+  if (lang === "en") {
+    const { results } = await c.env.DB
+      .prepare(
+        `SELECT english
+         FROM words
+         WHERE english LIKE ?
+         ORDER BY frequency_rank IS NULL, frequency_rank ASC
+         LIMIT ?`,
+      )
+      .bind(`${q.toLowerCase()}%`, limit)
+      .all<{ english: string }>();
+    return c.json({ suggestions: results.map((r) => r.english) });
+  }
+
+  const { results } = await c.env.DB
+    .prepare(
+      `SELECT DISTINCT t.meaning
+       FROM sense_translations t
+       WHERE t.language_code = ? AND t.meaning LIKE ?
+       LIMIT ?`,
+    )
+    .bind(lang, `${q}%`, limit)
+    .all<{ meaning: string }>();
+  return c.json({ suggestions: results.map((r) => r.meaning) });
+});
+
+// --- /v1/bulk/manifest (points to GitHub raw URLs for bulk download) ---
+app.get("/v1/bulk/manifest", async (c) => {
+  const ghRaw = "https://raw.githubusercontent.com/amirj4m/openjam/main/data/json";
+  const meta = await c.env.DB
+    .prepare("SELECT value FROM dataset_meta WHERE key = 'dataset_version'")
+    .first<{ value: string }>();
+  return c.json({
+    dataset_version: meta?.value ?? c.env.DATASET_VERSION,
+    note: "Bulk files live in the public GitHub repo. Fetch directly for first-launch sync.",
+    files: {
+      words: `${ghRaw}/words_en.json`,
+      categories: `${ghRaw}/categories.json`,
+      word_categories: `${ghRaw}/word_categories.json`,
+      translations: {
+        fa: `${ghRaw}/translations_fa.json`,
+      },
+    },
+    sync_strategy: {
+      first_launch: "Fetch all files in `files`, store locally, record dataset_version.",
+      check_for_updates: "Periodically GET /v1/meta; if dataset_version > local, refetch.",
+    },
+  });
+});
+
+// --- /v1/bulk/category/:slug (whole category with senses+translations in one response) ---
+// Uses a single JOIN query to avoid D1's per-statement parameter limit (~100).
+app.get("/v1/bulk/category/:slug", async (c) => {
+  const slug = c.req.param("slug");
+  const lang = c.req.query("lang") ?? "fa";
+
+  const cat = await c.env.DB
+    .prepare("SELECT id, slug, name_en FROM categories WHERE slug = ?")
+    .bind(slug)
+    .first<{ id: string; slug: string; name_en: string }>();
+  if (!cat) return c.json({ error: "category not found", slug }, 404);
+
+  const { results: rows } = await c.env.DB
+    .prepare(
+      `SELECT
+         w.id AS word_id, w.english, w.frequency_rank, w.level,
+         s.id AS sense_id, s.part_of_speech, s.sense_order,
+         s.definition_en, s.example_en,
+         t.meaning, t.example
+       FROM words w
+       JOIN word_categories wc ON wc.word_id = w.id
+       JOIN word_senses s ON s.word_id = w.id
+       LEFT JOIN sense_translations t
+         ON t.sense_id = s.id AND t.language_code = ?
+       WHERE wc.category_id = ?
+       ORDER BY w.frequency_rank IS NULL, w.frequency_rank ASC,
+                s.part_of_speech, s.sense_order`,
+    )
+    .bind(lang, cat.id)
+    .all<{
+      word_id: string;
+      english: string;
+      frequency_rank: number | null;
+      level: string | null;
+      sense_id: string;
+      part_of_speech: string;
+      sense_order: number;
+      definition_en: string;
+      example_en: string | null;
+      meaning: string | null;
+      example: string | null;
+    }>();
+
+  // Pivot the flat join into nested words -> senses -> translations.
+  const wordMap = new Map<string, {
+    id: string;
+    english: string;
+    frequency_rank: number | null;
+    level: string | null;
+    senses: Map<string, {
+      id: string;
+      part_of_speech: string;
+      sense_order: number;
+      definition_en: string;
+      example_en: string | null;
+      translations: { meaning: string; example: string | null }[];
+    }>;
+  }>();
+
+  for (const r of rows) {
+    let w = wordMap.get(r.word_id);
+    if (!w) {
+      w = {
+        id: r.word_id,
+        english: r.english,
+        frequency_rank: r.frequency_rank,
+        level: r.level,
+        senses: new Map(),
+      };
+      wordMap.set(r.word_id, w);
+    }
+    let s = w.senses.get(r.sense_id);
+    if (!s) {
+      s = {
+        id: r.sense_id,
+        part_of_speech: r.part_of_speech,
+        sense_order: r.sense_order,
+        definition_en: r.definition_en,
+        example_en: r.example_en,
+        translations: [],
+      };
+      w.senses.set(r.sense_id, s);
+    }
+    if (r.meaning) {
+      s.translations.push({ meaning: r.meaning, example: r.example });
+    }
+  }
+
+  const words = Array.from(wordMap.values()).map((w) => ({
+    id: w.id,
+    english: w.english,
+    frequency_rank: w.frequency_rank,
+    level: w.level,
+    senses: Array.from(w.senses.values()),
+  }));
+
+  return c.json({
+    category: cat,
+    language: lang,
+    word_count: words.length,
+    words,
+  });
 });
 
 app.notFound((c) => c.json({ error: "not found", path: c.req.path }, 404));
