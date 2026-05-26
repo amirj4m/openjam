@@ -316,7 +316,14 @@ def collect_words(target_count: int) -> list[dict]:
 
 
 def extract_json(text: str) -> str:
-    """Strip Markdown fences so json.loads can parse the body."""
+    """Strip Markdown fences and fix common Claude JSON tics.
+
+    Claude sometimes emits trailing commas (`[..., ]` or `{..., }`),
+    smart quotes, or leading/trailing prose around the JSON. We undo
+    the most common breakages so json.loads can parse the body.
+    """
+    import re
+
     text = text.strip()
     if text.startswith("```"):
         # ```json\n...\n```
@@ -328,6 +335,24 @@ def extract_json(text: str) -> str:
             text = inner.strip()
             if text.endswith("```"):
                 text = text[:-3].strip()
+
+    # Trim any prose before the first { or [ and after the last } or ].
+    first = min((p for p in (text.find("{"), text.find("[")) if p != -1), default=-1)
+    if first > 0:
+        text = text[first:]
+    last = max(text.rfind("}"), text.rfind("]"))
+    if last != -1 and last < len(text) - 1:
+        text = text[: last + 1]
+
+    # Drop trailing commas before } or ]: ", }" or ", ]"
+    text = re.sub(r",(\s*[}\]])", r"\1", text)
+
+    # Normalize smart quotes to ASCII
+    text = (
+        text.replace("“", '"').replace("”", '"')
+            .replace("‘", "'").replace("’", "'")
+    )
+
     return text
 
 
@@ -631,7 +656,8 @@ def main() -> int:
             eta = (elapsed / called) * remaining if called else 0
             print(
                 f"      [{idx}/{len(words)}] call#{called} skip#{skipped} "
-                f"{w['english']:<20s} elapsed={elapsed:5.0f}s eta={eta:5.0f}s"
+                f"{w['english']:<20s} elapsed={elapsed:5.0f}s eta={eta:5.0f}s",
+                flush=True,
             )
 
     print(f"[5/5] Writing final SQL")
