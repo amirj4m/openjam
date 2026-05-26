@@ -28,6 +28,11 @@ build/
 # Node (for future tooling)
 node_modules/
 
+# Cloudflare Wrangler local state
+.wrangler/
+.dev.vars
+wrangler.toml.bak
+
 # Local data dumps (large, generated artifacts)
 data/sql/*.dump
 data/sql/*.tar

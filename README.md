@@ -51,7 +51,16 @@ The same data will be exported to `data/json/` for non-PostgreSQL consumers.
 
 ### REST API
 
-Planned for v0.2.0. See [api/README.md](api/README.md).
+Live at **`https://openjam.amirj4m.com`** (Cloudflare Workers + D1, free tier, edge-cached).
+
+```bash
+curl https://openjam.amirj4m.com/v1/words/run
+curl "https://openjam.amirj4m.com/v1/words?level=A1&lang=fa&limit=10"
+curl "https://openjam.amirj4m.com/v1/random?level=B1&lang=fa"
+curl https://openjam.amirj4m.com/v1/categories
+```
+
+Full endpoint reference: [api/README.md](api/README.md).
 
 ### Python package
 
@@ -59,9 +68,9 @@ Planned for v0.3.0. See [python/README.md](python/README.md).
 
 ## Roadmap
 
-- **v0.1.0** — Schema, 1000 English lemmas with Persian translations
-- **v0.2.0** — Scale to 5000 lemmas, 35-category taxonomy with auto-tagging
-- **v0.3.0** — REST API + Cloudflare hosting + JSON exports as release artifacts
+- **v0.1.0** — Schema, 1000 English lemmas with Persian translations (shipped)
+- **v0.2.0** — Scale to 5000 lemmas, 35-category taxonomy with auto-tagging (shipped)
+- **v0.3.0** — REST API on Cloudflare Workers + D1, custom domain (shipped)
 - **v0.4.0** — Python package on PyPI
 - **v0.5.0** — More languages (German, Arabic, Spanish, French, Turkish, Japanese)
 - **v0.6.0** — Audio pronunciation URLs (UK + US, hosted)

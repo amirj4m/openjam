@@ -1,22 +1,63 @@
 # Openjam REST API
 
-Status: **Planned (v0.2.0)**
+Public, read-only HTTP API for the Openjam multilingual vocabulary database.
 
-The REST API will provide query access to the Openjam dataset without requiring database setup. Until it ships, use the SQL dump or JSON files in [`../data/`](../data/).
+- Stack: Cloudflare Workers + D1 + Hono
+- Live URL (after deploy): `https://openjam.amirj4m.com`
+- Source data: see [`../data/`](../data/)
 
-## Planned endpoints
+## Endpoints
 
-- `GET /v1/words?level=A1&limit=100` — list words
-- `GET /v1/words/:english` — single word with all senses and translations
-- `GET /v1/words/:english/translations/:lang` — single translation
-- `GET /v1/categories` — list categories
-- `GET /v1/random?level=B1` — random word (useful for daily-learning apps)
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/` | API metadata + index of endpoints |
+| GET | `/v1/meta` | Schema/dataset version, license, attribution |
+| GET | `/v1/words?level=A1&lang=fa&category=food&limit=100&offset=0` | List with filters |
+| GET | `/v1/words/:english` | Full word: senses, all translations, categories |
+| GET | `/v1/words/:english/translations/:lang` | Translations only |
+| GET | `/v1/random?level=B1&lang=fa&category=food` | Random word with full payload |
+| GET | `/v1/categories` | All categories + word counts |
+| GET | `/v1/categories/:slug/words?lang=fa&limit=100` | Words in a category |
 
-## Design principles
+CORS: `*`. Cache: `public, max-age=300, s-maxage=300`. No auth.
 
-- Read-only and unauthenticated for public endpoints
-- Reasonable rate limits per IP
-- Caching headers so CDNs and consumers can stay efficient
-- Stable URLs; breaking changes only at major version bumps
+## Deploying (first-time setup)
 
-Follow the main repository for progress.
+```bash
+cd api/
+npm install
+npx wrangler login            # one-time, opens browser
+npx wrangler d1 create openjam
+# Paste the returned database_id into wrangler.toml
+python sqlite/build-data.py   # produces sqlite/data.sql from data/json/
+npm run d1:schema             # applies sqlite/schema.sql to remote D1
+npm run d1:import             # applies sqlite/data.sql to remote D1
+npm run deploy                # ships the Worker
+```
+
+After the first deploy succeeds on `*.workers.dev`, add the custom domain:
+
+```bash
+npx wrangler deployments domains add openjam.amirj4m.com
+```
+
+(or via the Cloudflare dashboard: Workers & Pages -> openjam-api -> Settings -> Triggers -> Custom Domains)
+
+## Updating the dataset
+
+When `data/json/*.json` change (new Openjam release):
+
+```bash
+python sqlite/build-data.py
+npm run d1:import           # idempotent: INSERT OR IGNORE
+```
+
+The Worker code does not need to change for data updates.
+
+## Local development
+
+```bash
+npm run d1:schema:local
+npm run d1:import:local
+npm run dev                  # http://localhost:8787
+```

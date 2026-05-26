@@ -1,0 +1,24 @@
+{
+  "name": "openjam-api",
+  "version": "0.3.0",
+  "private": true,
+  "description": "REST API for the Openjam multilingual vocabulary database, on Cloudflare Workers + D1.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "d1:create": "wrangler d1 create openjam",
+    "d1:schema": "wrangler d1 execute openjam --remote --file=sqlite/schema.sql",
+    "d1:schema:local": "wrangler d1 execute openjam --local --file=sqlite/schema.sql",
+    "d1:import": "wrangler d1 execute openjam --remote --file=sqlite/data.sql",
+    "d1:import:local": "wrangler d1 execute openjam --local --file=sqlite/data.sql",
+    "build:data": "python sqlite/build-data.py"
+  },
+  "dependencies": {
+    "hono": "^4.6.10"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251101.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^3.95.0"
+  }
+}

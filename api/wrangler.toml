@@ -1,0 +1,22 @@
+name = "openjam-api"
+main = "src/index.ts"
+compatibility_date = "2025-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+# D1 database binding. The `database_id` is filled in after running
+# `npm run d1:create` once. Wrangler prints the UUID; paste it here.
+[[d1_databases]]
+binding = "DB"
+database_name = "openjam"
+database_id = "179e8445-002d-44fb-811d-9f4ff1b15a99"
+
+[[routes]]
+pattern = "openjam.amirj4m.com"
+custom_domain = true
+
+[observability]
+enabled = true
+
+[vars]
+DATASET_VERSION = "0.2.0"
+SCHEMA_VERSION = "1.0.0"
