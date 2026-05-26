@@ -4,12 +4,17 @@ Reproducible scripts that build the dataset from open sources.
 
 ## generate_seed.py
 
-Builds the initial seed:
+Builds the seed dataset end-to-end:
 
 1. Pulls the top-N most-frequent English words from [`wordfreq`](https://pypi.org/project/wordfreq/) (modern corpus, MIT-licensed code).
-2. Enriches each word with senses, parts of speech, definitions, and examples from [Princeton WordNet 3.1](https://wordnet.princeton.edu/) (BSD-style, MIT-compatible).
-3. Calls the Claude API to generate Persian (`fa`) translations and example sentences per sense.
-4. Emits `data/json/*.json` and `data/sql/*.sql`.
+2. Filters via Brown corpus POS tags to drop functional words and limit WordNet senses to ones matching the word's actual usage (no chemistry/geography junk for short words like `be`, `as`).
+3. Lemmatizes (so `was`/`were`/`been` collapse to `be`).
+4. Enriches each word with senses, parts of speech, definitions, and examples from [Princeton WordNet 3.1](https://wordnet.princeton.edu/) (BSD-style, MIT-compatible).
+5. One Claude API call per word generates:
+   - Persian (`fa`) translation + example per sense
+   - 1-3 categories from a fixed 35-slug taxonomy
+6. Resumable: existing translations and category assignments are loaded from `data/json/*.json` and reused — no wasted API calls on re-runs.
+7. Emits all four pairs of `data/json/*.json` + `data/sql/*.sql`.
 
 ### Setup
 

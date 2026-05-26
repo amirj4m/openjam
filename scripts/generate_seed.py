@@ -5,12 +5,21 @@ Pipeline:
   1. Pull top-N most-frequent English words from `wordfreq` (modern corpus).
   2. Look up each word in Princeton WordNet (via NLTK) to get senses,
      part of speech, definition, and example sentence.
-  3. Ask the Claude API for a Persian translation + Persian example per sense.
+  3. Ask the Claude API in one call per word for:
+       - Persian (fa) translation + example per sense
+       - 1-3 category slugs for the word from a fixed taxonomy
   4. Emit:
        data/json/words_en.json
        data/json/translations_fa.json
+       data/json/categories.json
+       data/json/word_categories.json
        data/sql/words_en.sql
        data/sql/translations_fa.sql
+       data/sql/categories.sql
+       data/sql/word_categories.sql
+
+Resumable: existing translations and category assignments are loaded from
+their JSON files; words already covered are skipped (no API call).
 
 Idempotent: re-running produces the same UUIDs (uuid5 over a fixed namespace).
 
@@ -18,10 +27,12 @@ Environment:
   ANTHROPIC_API_KEY    required for the translation step
   N_WORDS              optional, default 1000
   OPENJAM_MODEL        optional, default claude-haiku-4-5-20251001
+  SKIP_TRANSLATE=1     stop after writing words_en.{sql,json}
 
 Usage:
-  python scripts/generate_seed.py            # 1000 words
-  N_WORDS=10 python scripts/generate_seed.py # quick smoke test
+  python scripts/generate_seed.py             # default 1000 words
+  N_WORDS=5000 python scripts/generate_seed.py
+  N_WORDS=10 python scripts/generate_seed.py  # quick smoke test
 """
 
 from __future__ import annotations
@@ -48,7 +59,56 @@ POS_MAP = {
     "r": "adverb",
 }
 
-CHECKPOINT_EVERY = 25  # write JSON every N words during translation
+CHECKPOINT_EVERY = 25  # write JSON every N processed words during translation
+
+# Flat taxonomy of 35 categories used to tag words. Slug must match the
+# schema regex ^[a-z0-9-]+$. Names are English display labels.
+# Grouped only for readability — the schema is flat (no parent_id used here).
+CATEGORIES: list[tuple[str, str]] = [
+    # Physical / concrete
+    ("food", "Food"),
+    ("drink", "Drink"),
+    ("body", "Body parts"),
+    ("clothing", "Clothing"),
+    ("home", "Home and household"),
+    ("animal", "Animals"),
+    ("plant", "Plants"),
+    ("nature", "Nature and weather"),
+    ("vehicle", "Vehicles and transport"),
+    ("tool", "Tools and devices"),
+    # People & society
+    ("family", "Family"),
+    ("person", "People"),
+    ("profession", "Professions"),
+    ("relationship", "Relationships"),
+    ("emotion", "Emotions"),
+    ("society", "Society and politics"),
+    # Places
+    ("place", "Places"),
+    ("country", "Countries"),
+    ("city", "Cities"),
+    ("travel", "Travel"),
+    # Activities & culture
+    ("work", "Work and business"),
+    ("school", "School and education"),
+    ("sport", "Sports and games"),
+    ("arts", "Arts and culture"),
+    ("religion", "Religion"),
+    ("media", "Media and communication"),
+    # Sciences
+    ("health", "Health and medicine"),
+    ("science", "Science"),
+    ("technology", "Technology"),
+    # Abstract
+    ("time", "Time"),
+    ("money", "Money and finance"),
+    ("quality", "Qualities and descriptions"),
+    ("action", "Actions and movement"),
+    ("abstract", "Abstract concepts"),
+    ("event", "Events"),
+]
+
+CATEGORY_SLUGS = [slug for slug, _ in CATEGORIES]
 
 
 def load_env_file() -> None:
@@ -271,12 +331,20 @@ def extract_json(text: str) -> str:
     return text
 
 
-def translate_word(client, model: str, word: str, senses: list[dict]) -> list[dict]:
-    """Ask Claude for Persian meaning + example for each sense of a word."""
+def translate_word(
+    client, model: str, word: str, senses: list[dict]
+) -> tuple[list[dict], list[str]]:
+    """One Claude call per word: returns (senses_out, category_slugs).
+
+    senses_out is a list of {"meaning", "example"} dicts in the same order
+    as input. category_slugs is 1-3 entries from CATEGORY_SLUGS (others
+    are filtered out by the caller's whitelist).
+    """
     sense_lines = "\n".join(
         f"{i + 1}. ({s['part_of_speech']}) {s['definition_en']}"
         for i, s in enumerate(senses)
     )
+    cats_str = ", ".join(CATEGORY_SLUGS)
     prompt = f"""You translate English vocabulary to Persian (Farsi, fa-IR) for learners.
 
 English word: "{word}"
@@ -284,12 +352,16 @@ English word: "{word}"
 Senses:
 {sense_lines}
 
-For each sense in the SAME ORDER, return:
-- "meaning": the Persian translation (word or short phrase, NO explanation, NO English)
+For each sense in the SAME ORDER, provide:
+- "meaning": Persian translation (word or short phrase, NO English, NO explanation)
 - "example": a short, natural Persian sentence that uses the meaning in context
 
-Return ONLY a JSON array, nothing else, no prose, no Markdown fences:
-[{{"meaning": "...", "example": "..."}}, ...]
+Also classify the WORD as a whole into 1-3 categories from this fixed list
+(choose only the most relevant; pick exact slug strings):
+{cats_str}
+
+Return ONLY this JSON object, no Markdown, no prose:
+{{"senses": [{{"meaning": "...", "example": "..."}}, ...], "categories": ["slug", ...]}}
 """
 
     msg = client.messages.create(
@@ -297,11 +369,13 @@ Return ONLY a JSON array, nothing else, no prose, no Markdown fences:
         max_tokens=2000,
         messages=[{"role": "user", "content": prompt}],
     )
-    raw = msg.content[0].text
-    parsed = json.loads(extract_json(raw))
-    if not isinstance(parsed, list):
-        raise ValueError(f"expected JSON array, got: {type(parsed).__name__}")
-    return parsed
+    parsed = json.loads(extract_json(msg.content[0].text))
+    if not isinstance(parsed, dict):
+        raise ValueError(f"expected JSON object, got: {type(parsed).__name__}")
+    senses_out = parsed.get("senses", [])
+    valid = set(CATEGORY_SLUGS)
+    cats_out = [c for c in parsed.get("categories", []) if c in valid]
+    return senses_out, cats_out
 
 
 def sql_literal(s):
@@ -380,6 +454,47 @@ def write_translations_sql(path: Path, translations: list[dict]) -> None:
         f.write("COMMIT;\n")
 
 
+def write_categories_sql(path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as f:
+        f.write(f"-- Openjam: category taxonomy ({len(CATEGORIES)} categories, flat).\n")
+        f.write("-- Auto-generated by scripts/generate_seed.py\n\n")
+        f.write("BEGIN;\n\n")
+        f.write("INSERT INTO categories (id, slug, name_en) VALUES\n")
+        rows = [
+            "  ('{id}', {slug}, {name})".format(
+                id=deterministic_uuid(f"cat:{slug}"),
+                slug=sql_literal(slug),
+                name=sql_literal(name),
+            )
+            for slug, name in CATEGORIES
+        ]
+        f.write(",\n".join(rows))
+        f.write("\nON CONFLICT (slug) DO NOTHING;\n\n")
+        f.write("COMMIT;\n")
+
+
+def write_word_categories_sql(path: Path, word_categories: list[dict]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="\n") as f:
+        f.write("-- Openjam: word <-> category assignments.\n")
+        f.write("-- Auto-generated by scripts/generate_seed.py\n\n")
+        if not word_categories:
+            f.write("-- (no assignments yet)\n")
+            return
+        f.write("BEGIN;\n\n")
+        f.write("INSERT INTO word_categories (word_id, category_id) VALUES\n")
+        rows = [
+            "  ('{word_id}', '{cat_id}')".format(
+                word_id=wc["word_id"], cat_id=wc["category_id"]
+            )
+            for wc in word_categories
+        ]
+        f.write(",\n".join(rows))
+        f.write("\nON CONFLICT (word_id, category_id) DO NOTHING;\n\n")
+        f.write("COMMIT;\n")
+
+
 def write_json(path: Path, payload) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8", newline="\n") as f:
@@ -392,26 +507,34 @@ def main() -> int:
     model = os.environ.get("OPENJAM_MODEL", "claude-haiku-4-5-20251001")
     do_translate = os.environ.get("SKIP_TRANSLATE") != "1"
 
-    print(f"[1/4] Ensuring NLTK WordNet is downloaded")
+    print(f"[1/5] Ensuring NLTK data is downloaded")
     ensure_nltk_data()
 
-    print(f"[2/4] Collecting top {target} words via wordfreq + WordNet")
+    print(f"[2/5] Collecting top {target} words via wordfreq + WordNet")
     words = collect_words(target)
     sense_count = sum(len(w["senses"]) for w in words)
     print(f"      -> {len(words)} words with {sense_count} senses")
-
     if not words:
         print("ERROR: no words collected", file=sys.stderr)
         return 1
 
-    words_json_path = ROOT / "data" / "json" / "words_en.json"
-    write_json(words_json_path, words)
-    write_words_sql(ROOT / "data" / "sql" / "words_en.sql", words)
-    print(f"      -> wrote {words_json_path.relative_to(ROOT)}")
-    print(f"      -> wrote data/sql/words_en.sql")
+    write_json(ROOT / "data/json/words_en.json", words)
+    write_words_sql(ROOT / "data/sql/words_en.sql", words)
+    print(f"      -> wrote data/json/words_en.json, data/sql/words_en.sql")
+
+    print(f"[3/5] Writing category taxonomy ({len(CATEGORIES)} categories)")
+    write_categories_sql(ROOT / "data/sql/categories.sql")
+    write_json(
+        ROOT / "data/json/categories.json",
+        [
+            {"id": deterministic_uuid(f"cat:{slug}"), "slug": slug, "name_en": name}
+            for slug, name in CATEGORIES
+        ],
+    )
+    print(f"      -> wrote data/sql/categories.sql, data/json/categories.json")
 
     if not do_translate:
-        print("[3/4] SKIP_TRANSLATE=1, stopping before Claude calls")
+        print("[4/5] SKIP_TRANSLATE=1, stopping before Claude calls")
         return 0
 
     api_key = os.environ.get("ANTHROPIC_API_KEY")
@@ -419,50 +542,114 @@ def main() -> int:
         print("ERROR: ANTHROPIC_API_KEY is not set", file=sys.stderr)
         return 2
 
+    # --- Resume support ---
+    # Load any existing translations and word-category assignments so we
+    # skip Claude calls for words already fully covered by previous runs.
+    translations_json_path = ROOT / "data/json/translations_fa.json"
+    word_categories_json_path = ROOT / "data/json/word_categories.json"
+
+    existing_translations: dict[str, dict] = {}
+    if translations_json_path.exists():
+        for t in json.loads(translations_json_path.read_text(encoding="utf-8")):
+            existing_translations[t["sense_id"]] = t
+
+    existing_word_cats: dict[str, set[str]] = {}
+    if word_categories_json_path.exists():
+        for wc in json.loads(word_categories_json_path.read_text(encoding="utf-8")):
+            existing_word_cats.setdefault(wc["word_id"], set()).add(wc["category_id"])
+
+    if existing_translations or existing_word_cats:
+        print(
+            f"      resume: {len(existing_translations)} existing translations, "
+            f"{len(existing_word_cats)} words already categorized"
+        )
+
     import anthropic
 
     client = anthropic.Anthropic()
 
-    print(f"[3/4] Translating {sense_count} senses to Persian via {model}")
-    translations: list[dict] = []
-    translations_json_path = ROOT / "data" / "json" / "translations_fa.json"
+    print(f"[4/5] Translating + categorizing via {model}")
+    translations: list[dict] = list(existing_translations.values())
+    word_categories: list[dict] = [
+        {"word_id": wid, "category_id": cid}
+        for wid, cids in existing_word_cats.items()
+        for cid in cids
+    ]
     failures: list[tuple[str, str]] = []
+    skipped = 0
+    called = 0
     start = time.time()
 
     for idx, w in enumerate(words, 1):
+        senses_done = all(s["id"] in existing_translations for s in w["senses"])
+        cats_done = w["id"] in existing_word_cats
+        if senses_done and cats_done:
+            skipped += 1
+            continue
+
+        called += 1
         try:
-            results = translate_word(client, model, w["english"], w["senses"])
+            sense_results, cat_slugs = translate_word(
+                client, model, w["english"], w["senses"]
+            )
         except Exception as exc:
             failures.append((w["english"], str(exc)))
             continue
 
-        for sense, res in zip(w["senses"], results):
-            if not isinstance(res, dict) or "meaning" not in res:
-                continue
-            translations.append(
-                {
+        if not senses_done:
+            for sense, res in zip(w["senses"], sense_results):
+                if not isinstance(res, dict) or "meaning" not in res:
+                    continue
+                if sense["id"] in existing_translations:
+                    continue
+                trans = {
                     "id": deterministic_uuid(f"trans:{sense['id']}:fa"),
                     "sense_id": sense["id"],
                     "language_code": "fa",
                     "meaning": str(res["meaning"]).strip(),
-                    "example": (str(res["example"]).strip() if res.get("example") else None),
+                    "example": (
+                        str(res["example"]).strip() if res.get("example") else None
+                    ),
                 }
+                translations.append(trans)
+                existing_translations[sense["id"]] = trans
+
+        if not cats_done:
+            cat_set = existing_word_cats.setdefault(w["id"], set())
+            for slug in cat_slugs:
+                cat_id = deterministic_uuid(f"cat:{slug}")
+                if cat_id in cat_set:
+                    continue
+                word_categories.append({"word_id": w["id"], "category_id": cat_id})
+                cat_set.add(cat_id)
+
+        if called % CHECKPOINT_EVERY == 0 or idx == len(words):
+            write_json(translations_json_path, translations)
+            write_json(word_categories_json_path, word_categories)
+            elapsed = time.time() - start
+            remaining = len(words) - idx
+            eta = (elapsed / called) * remaining if called else 0
+            print(
+                f"      [{idx}/{len(words)}] call#{called} skip#{skipped} "
+                f"{w['english']:<20s} elapsed={elapsed:5.0f}s eta={eta:5.0f}s"
             )
 
-        if idx % CHECKPOINT_EVERY == 0 or idx == len(words):
-            write_json(translations_json_path, translations)
-            elapsed = time.time() - start
-            eta = (elapsed / idx) * (len(words) - idx)
-            print(f"      [{idx}/{len(words)}] {w['english']:<20s} elapsed={elapsed:5.0f}s eta={eta:5.0f}s")
-
-    print(f"[4/4] Writing SQL")
-    write_translations_sql(ROOT / "data" / "sql" / "translations_fa.sql", translations)
-    print(f"      -> wrote data/sql/translations_fa.sql")
+    print(f"[5/5] Writing final SQL")
+    write_translations_sql(ROOT / "data/sql/translations_fa.sql", translations)
+    write_word_categories_sql(ROOT / "data/sql/word_categories.sql", word_categories)
+    print(f"      -> wrote translations_fa.sql, word_categories.sql")
 
     print()
-    print(f"DONE: {len(words)} words, {sense_count} senses, {len(translations)} translations")
+    print(
+        f"DONE: {len(words)} words ({skipped} reused from previous run, "
+        f"{called} API calls)"
+    )
+    print(
+        f"      {len(translations)} translations, "
+        f"{len(word_categories)} category assignments"
+    )
     if failures:
-        print(f"FAILURES: {len(failures)} words failed translation:")
+        print(f"FAILURES: {len(failures)} words failed:")
         for w, err in failures[:10]:
             print(f"  - {w}: {err}")
         if len(failures) > 10:

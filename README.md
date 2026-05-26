@@ -37,10 +37,13 @@ See [data/sql/schema.sql](data/sql/schema.sql) for the full DDL.
 ```bash
 createdb openjam
 psql openjam < data/sql/schema.sql
-# Data files will appear in upcoming releases:
-# psql openjam < data/sql/words_en.sql
-# psql openjam < data/sql/translations_fa.sql
+psql openjam < data/sql/categories.sql
+psql openjam < data/sql/words_en.sql
+psql openjam < data/sql/word_categories.sql
+psql openjam < data/sql/translations_fa.sql
 ```
+
+All files are idempotent (`ON CONFLICT DO NOTHING`) — safe to re-run.
 
 ### Use the JSON files
 
@@ -56,12 +59,13 @@ Planned for v0.3.0. See [python/README.md](python/README.md).
 
 ## Roadmap
 
-- **v0.1.0** — Schema, seed Persian (`fa`) translations migrated from Jamlex
-- **v0.2.0** — REST API + JSON exports
-- **v0.3.0** — Python package
-- **v0.4.0** — More languages (German, Arabic, Spanish, French, …)
-- **v0.5.0** — Audio pronunciation URLs
-- **v1.0.0** — Full A1–C2 coverage with reviewed translations
+- **v0.1.0** — Schema, 1000 English lemmas with Persian translations
+- **v0.2.0** — Scale to 5000 lemmas, 35-category taxonomy with auto-tagging
+- **v0.3.0** — REST API + Cloudflare hosting + JSON exports as release artifacts
+- **v0.4.0** — Python package on PyPI
+- **v0.5.0** — More languages (German, Arabic, Spanish, French, Turkish, Japanese)
+- **v0.6.0** — Audio pronunciation URLs (UK + US, hosted)
+- **v1.0.0** — Full A1–C2 coverage (~30K words) with reviewed translations
 
 ## Data sources & attribution
 

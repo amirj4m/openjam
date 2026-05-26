@@ -1,0 +1,177 @@
+[
+  {
+    "id": "560b4bf0-03a1-587f-9b24-ff23fced31fa",
+    "slug": "food",
+    "name_en": "Food"
+  },
+  {
+    "id": "2e43fd71-e27f-5ef9-95e5-9c872fe463cf",
+    "slug": "drink",
+    "name_en": "Drink"
+  },
+  {
+    "id": "09ee0872-4d02-5196-8b67-d6343e126879",
+    "slug": "body",
+    "name_en": "Body parts"
+  },
+  {
+    "id": "eb488b51-a3fd-543d-83b6-36afa4c49450",
+    "slug": "clothing",
+    "name_en": "Clothing"
+  },
+  {
+    "id": "0261e854-2004-5e96-9553-b73ce1dd7112",
+    "slug": "home",
+    "name_en": "Home and household"
+  },
+  {
+    "id": "73e6f4d4-a680-513a-9995-42a96d7dabf7",
+    "slug": "animal",
+    "name_en": "Animals"
+  },
+  {
+    "id": "e2fa8660-a128-5d31-ab9d-0bc4ab6213a0",
+    "slug": "plant",
+    "name_en": "Plants"
+  },
+  {
+    "id": "05b9a093-6b59-5a85-8762-a2cd05f8a12a",
+    "slug": "nature",
+    "name_en": "Nature and weather"
+  },
+  {
+    "id": "6dd4fbed-18c5-51dd-a038-e6558f14d502",
+    "slug": "vehicle",
+    "name_en": "Vehicles and transport"
+  },
+  {
+    "id": "57381fde-1a82-56f6-8f25-330bcdf625d1",
+    "slug": "tool",
+    "name_en": "Tools and devices"
+  },
+  {
+    "id": "63200e6a-384d-5b80-bf87-1ae5f49a44af",
+    "slug": "family",
+    "name_en": "Family"
+  },
+  {
+    "id": "853a6480-a80d-5125-9b9a-97899648cfb9",
+    "slug": "person",
+    "name_en": "People"
+  },
+  {
+    "id": "3f0e5d18-155d-5bd3-86a2-5edef8cdd507",
+    "slug": "profession",
+    "name_en": "Professions"
+  },
+  {
+    "id": "0a52777f-75a0-50d3-8b76-cd1c118825db",
+    "slug": "relationship",
+    "name_en": "Relationships"
+  },
+  {
+    "id": "f20c58e3-4541-5184-ad96-dae832d67aa2",
+    "slug": "emotion",
+    "name_en": "Emotions"
+  },
+  {
+    "id": "1cac6386-a0ac-5ec5-9200-22848e672b42",
+    "slug": "society",
+    "name_en": "Society and politics"
+  },
+  {
+    "id": "11c34d45-ed35-5c2d-94b1-4aa15cd731a0",
+    "slug": "place",
+    "name_en": "Places"
+  },
+  {
+    "id": "a833ed7d-921d-58b1-831e-fd2b85599d13",
+    "slug": "country",
+    "name_en": "Countries"
+  },
+  {
+    "id": "ca12f121-de4e-5de0-bb6b-8462441281fe",
+    "slug": "city",
+    "name_en": "Cities"
+  },
+  {
+    "id": "0c9b12b2-e0c9-5c83-8bb1-f0fca6e96995",
+    "slug": "travel",
+    "name_en": "Travel"
+  },
+  {
+    "id": "042febdd-f9f5-5232-b2de-b331a1f3a051",
+    "slug": "work",
+    "name_en": "Work and business"
+  },
+  {
+    "id": "07ae9f8d-9328-5143-8a80-99ac65823186",
+    "slug": "school",
+    "name_en": "School and education"
+  },
+  {
+    "id": "756f00fb-4dfc-5e21-989e-dd6bb96e12ec",
+    "slug": "sport",
+    "name_en": "Sports and games"
+  },
+  {
+    "id": "51fce64e-2e07-5e1f-b2da-25f0bdf5440b",
+    "slug": "arts",
+    "name_en": "Arts and culture"
+  },
+  {
+    "id": "f10d34c9-8ab5-5064-9b36-f1995e2916e5",
+    "slug": "religion",
+    "name_en": "Religion"
+  },
+  {
+    "id": "a141ac4d-6b97-5c6e-90a6-51a74b83b445",
+    "slug": "media",
+    "name_en": "Media and communication"
+  },
+  {
+    "id": "951465bc-ae65-502c-a00c-22858c073855",
+    "slug": "health",
+    "name_en": "Health and medicine"
+  },
+  {
+    "id": "c2121f72-9c5a-537a-94fd-d403b2a11f0d",
+    "slug": "science",
+    "name_en": "Science"
+  },
+  {
+    "id": "dd6cf916-9e70-50e8-8264-f3400ae89f95",
+    "slug": "technology",
+    "name_en": "Technology"
+  },
+  {
+    "id": "1ff34e8f-726a-53ed-aa2c-e39fdc07519e",
+    "slug": "time",
+    "name_en": "Time"
+  },
+  {
+    "id": "5456c91a-749d-5276-bde0-0b0435970299",
+    "slug": "money",
+    "name_en": "Money and finance"
+  },
+  {
+    "id": "64a0b003-b32f-549b-88e3-e89409a7033b",
+    "slug": "quality",
+    "name_en": "Qualities and descriptions"
+  },
+  {
+    "id": "40a7546e-a676-533f-bc08-cc284840d6a9",
+    "slug": "action",
+    "name_en": "Actions and movement"
+  },
+  {
+    "id": "0b12e8c0-3137-5d32-be5a-c0d0249280cb",
+    "slug": "abstract",
+    "name_en": "Abstract concepts"
+  },
+  {
+    "id": "a8901f99-c87d-5699-b572-6b2736a74daf",
+    "slug": "event",
+    "name_en": "Events"
+  }
+]
