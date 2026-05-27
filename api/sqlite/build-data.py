@@ -51,6 +51,12 @@ def main() -> None:
         if phonetics_path.exists()
         else []
     )
+    word_forms_path = DATA / "word_forms.json"
+    word_forms = (
+        json.loads(word_forms_path.read_text(encoding="utf-8"))
+        if word_forms_path.exists()
+        else []
+    )
 
     statements: list[str] = []
 
@@ -121,10 +127,21 @@ def main() -> None:
             "INSERT OR REPLACE INTO word_phonetics (word_id, variant, ipa, audio_url) VALUES",
         )
 
+    # word_forms (inflections mapped back to lemmas)
+    if word_forms:
+        wf_rows = [
+            f"  ({lit(f['form'])}, '{f['word_id']}', {lit(f.get('form_type'))})"
+            for f in word_forms
+        ]
+        statements += batched_insert(
+            wf_rows,
+            "INSERT OR IGNORE INTO word_forms (form, word_id, form_type) VALUES",
+        )
+
     # dataset_meta
     meta = [
         ("schema_version", "1.0.0"),
-        ("dataset_version", "0.6.0"),
+        ("dataset_version", "0.7.0"),
         ("license", "MIT"),
         ("homepage", "https://github.com/amirj4m/openjam"),
         (
@@ -150,6 +167,7 @@ def main() -> None:
     print(f"  {len(translations)} translations")
     print(f"  {len(word_categories)} word-category assignments")
     print(f"  {len(phonetics)} phonetics rows")
+    print(f"  {len(word_forms)} word forms")
     print(f"  {len(statements)} SQL statements")
 
 

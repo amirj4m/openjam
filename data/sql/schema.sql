@@ -85,6 +85,24 @@ CREATE TABLE IF NOT EXISTS word_phonetics (
 );
 
 -- ---------------------------------------------------------------------------
+-- word_forms: inflected surface forms that map back to a lemma.
+-- Examples: 'ran' -> 'run' (VBD), 'children' -> 'child' (NNS),
+-- 'better' -> 'good' (JJR). Lets apps map any surface form to a
+-- canonical word entry (essential for reading-mode lookups).
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS word_forms (
+    form        TEXT NOT NULL,
+    word_id     UUID NOT NULL REFERENCES words(id) ON DELETE CASCADE,
+    form_type   TEXT,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (form, word_id),
+    CONSTRAINT word_forms_form_lowercase CHECK (form = LOWER(form))
+);
+
+CREATE INDEX IF NOT EXISTS idx_word_forms_form    ON word_forms (form);
+CREATE INDEX IF NOT EXISTS idx_word_forms_word_id ON word_forms (word_id);
+
+-- ---------------------------------------------------------------------------
 -- categories: lookup table for topic/domain tagging.
 -- Hierarchical via parent_id (e.g., "medical/anatomy" → parent = "medical").
 -- ---------------------------------------------------------------------------

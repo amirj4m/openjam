@@ -64,9 +64,10 @@ app.get("/", (c) =>
     endpoints: [
       "GET /v1/meta",
       "GET /v1/words?level=A1&lang=fa&category=food&limit=100&offset=0",
-      "GET /v1/words/:english",
+      "GET /v1/words/:english (resolves inflections via word_forms)",
       "GET /v1/words/:english/audio?variant=us|uk",
       "GET /v1/words/:english/translations/:lang",
+      "GET /v1/lookup?q=ran  (form -> lemma)",
       "GET /v1/random?level=B1&lang=fa&category=food",
       "GET /v1/categories",
       "GET /v1/categories/:slug/words",
@@ -270,12 +271,81 @@ async function fetchWordPayload(db: D1Database, english: string) {
   };
 }
 
-// --- /v1/words/:english (full word) ---
+// --- /v1/words/:english (full word; falls back to inflection lookup) ---
 app.get("/v1/words/:english", async (c) => {
-  const english = c.req.param("english").toLowerCase();
-  const payload = await fetchWordPayload(c.env.DB, english);
-  if (!payload) return c.json({ error: "word not found", english }, 404);
-  return c.json(payload);
+  const queryWord = c.req.param("english").toLowerCase();
+
+  // Fast path: direct lemma hit.
+  let payload = await fetchWordPayload(c.env.DB, queryWord);
+  if (payload) return c.json(payload);
+
+  // Fallback: maybe it's an inflected form (ran -> run, children -> child).
+  const formMatch = await c.env.DB
+    .prepare(
+      `SELECT w.english, f.form_type
+       FROM word_forms f
+       JOIN words w ON w.id = f.word_id
+       WHERE f.form = ?
+       LIMIT 1`,
+    )
+    .bind(queryWord)
+    .first<{ english: string; form_type: string | null }>();
+
+  if (!formMatch) {
+    return c.json({ error: "word not found", queried: queryWord }, 404);
+  }
+
+  payload = await fetchWordPayload(c.env.DB, formMatch.english);
+  if (!payload) {
+    return c.json({ error: "word not found", queried: queryWord }, 404);
+  }
+  // Tell the caller we redirected from an inflected form.
+  return c.json({
+    ...payload,
+    resolved_from: { queried: queryWord, form_type: formMatch.form_type },
+  });
+});
+
+// --- /v1/lookup (form -> lemma, lightweight) ---
+// Cheap endpoint when the app only needs to know "what's the canonical word
+// for 'ran'?" without fetching the full word payload.
+app.get("/v1/lookup", async (c) => {
+  const q = c.req.query("q")?.trim().toLowerCase();
+  if (!q) return c.json({ error: "q parameter required" }, 400);
+
+  // Exact lemma?
+  const direct = await c.env.DB
+    .prepare("SELECT english FROM words WHERE english = ?")
+    .bind(q)
+    .first<{ english: string }>();
+  if (direct) {
+    return c.json({ form: q, lemma: direct.english, form_type: "base", exact: true });
+  }
+
+  // Inflected form?
+  const inflected = await c.env.DB
+    .prepare(
+      `SELECT w.english, f.form_type
+       FROM word_forms f
+       JOIN words w ON w.id = f.word_id
+       WHERE f.form = ?`,
+    )
+    .bind(q)
+    .all<{ english: string; form_type: string | null }>();
+
+  if (!inflected.results.length) {
+    return c.json({ error: "no match", queried: q }, 404);
+  }
+
+  // Multiple lemmas may share an inflection (rare). Return all.
+  return c.json({
+    form: q,
+    exact: false,
+    matches: inflected.results.map((m) => ({
+      lemma: m.english,
+      form_type: m.form_type,
+    })),
+  });
 });
 
 // --- /v1/words/:english/audio?variant=us|uk ---

@@ -60,6 +60,17 @@ CREATE TABLE IF NOT EXISTS word_phonetics (
     PRIMARY KEY (word_id, variant)
 );
 
+CREATE TABLE IF NOT EXISTS word_forms (
+    form        TEXT NOT NULL,
+    word_id     TEXT NOT NULL REFERENCES words(id) ON DELETE CASCADE,
+    form_type   TEXT,
+    created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (form, word_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_word_forms_form    ON word_forms (form);
+CREATE INDEX IF NOT EXISTS idx_word_forms_word_id ON word_forms (word_id);
+
 CREATE TABLE IF NOT EXISTS categories (
     id          TEXT PRIMARY KEY,
     slug        TEXT NOT NULL UNIQUE,
