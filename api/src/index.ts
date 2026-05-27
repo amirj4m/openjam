@@ -69,6 +69,7 @@ app.get("/", (c) =>
       "GET /v1/words/:english/translations/:lang",
       "GET /v1/lookup?q=ran  (form -> lemma)",
       "GET /v1/random?level=B1&lang=fa&category=food",
+      "GET /v1/categories/groups  (12 main groups -> 35 leaves, fa+en names)",
       "GET /v1/categories",
       "GET /v1/categories/:slug/words",
       "GET /v1/search?q=...&from=en|fa&mode=prefix|contains|exact&limit=20",
@@ -425,6 +426,171 @@ app.get("/v1/random", async (c) => {
 
   const payload = await fetchWordPayload(c.env.DB, row.english);
   return c.json(payload);
+});
+
+// 12 top-level groups that bucket the 35 flat categories. Designed for a
+// vocab-learning home screen: small enough to show all at once, each group
+// has 2-5 leaves so drilling in stays meaningful. name_fa is the Persian
+// label apps in fa locale can show directly; name_en is the fallback.
+const CATEGORY_GROUPS: {
+  slug: string;
+  name_en: string;
+  name_fa: string;
+  children: { slug: string; name_en: string; name_fa: string }[];
+}[] = [
+  {
+    slug: "food-drink",
+    name_en: "Food & drink",
+    name_fa: "غذا و نوشیدنی",
+    children: [
+      { slug: "food", name_en: "Food", name_fa: "غذا" },
+      { slug: "drink", name_en: "Drink", name_fa: "نوشیدنی" },
+    ],
+  },
+  {
+    slug: "people-family",
+    name_en: "People & family",
+    name_fa: "افراد و خانواده",
+    children: [
+      { slug: "family", name_en: "Family", name_fa: "خانواده" },
+      { slug: "person", name_en: "People", name_fa: "مردم" },
+      { slug: "profession", name_en: "Professions", name_fa: "شغل‌ها" },
+      { slug: "relationship", name_en: "Relationships", name_fa: "روابط" },
+    ],
+  },
+  {
+    slug: "body-health",
+    name_en: "Body & health",
+    name_fa: "بدن و سلامت",
+    children: [
+      { slug: "body", name_en: "Body parts", name_fa: "اعضای بدن" },
+      { slug: "health", name_en: "Health & medicine", name_fa: "سلامت و پزشکی" },
+    ],
+  },
+  {
+    slug: "nature-animals",
+    name_en: "Nature & animals",
+    name_fa: "طبیعت و حیوانات",
+    children: [
+      { slug: "animal", name_en: "Animals", name_fa: "حیوانات" },
+      { slug: "plant", name_en: "Plants", name_fa: "گیاهان" },
+      { slug: "nature", name_en: "Nature & weather", name_fa: "طبیعت و آب‌وهوا" },
+    ],
+  },
+  {
+    slug: "home-objects",
+    name_en: "Home & objects",
+    name_fa: "خانه و اشیاء",
+    children: [
+      { slug: "home", name_en: "Home", name_fa: "خانه" },
+      { slug: "clothing", name_en: "Clothing", name_fa: "لباس" },
+      { slug: "tool", name_en: "Tools & devices", name_fa: "ابزار و وسایل" },
+    ],
+  },
+  {
+    slug: "places-travel",
+    name_en: "Places & travel",
+    name_fa: "مکان و سفر",
+    children: [
+      { slug: "place", name_en: "Places", name_fa: "مکان‌ها" },
+      { slug: "country", name_en: "Countries", name_fa: "کشورها" },
+      { slug: "city", name_en: "Cities", name_fa: "شهرها" },
+      { slug: "travel", name_en: "Travel", name_fa: "سفر" },
+      { slug: "vehicle", name_en: "Vehicles & transport", name_fa: "وسایل نقلیه" },
+    ],
+  },
+  {
+    slug: "work-money",
+    name_en: "Work & money",
+    name_fa: "کار و پول",
+    children: [
+      { slug: "work", name_en: "Work & business", name_fa: "کار و کسب‌وکار" },
+      { slug: "money", name_en: "Money & finance", name_fa: "پول و مالی" },
+    ],
+  },
+  {
+    slug: "society-culture",
+    name_en: "Society & culture",
+    name_fa: "جامعه و فرهنگ",
+    children: [
+      { slug: "society", name_en: "Society & politics", name_fa: "جامعه و سیاست" },
+      { slug: "religion", name_en: "Religion", name_fa: "دین" },
+      { slug: "media", name_en: "Media & communication", name_fa: "رسانه و ارتباطات" },
+      { slug: "arts", name_en: "Arts & culture", name_fa: "هنر و فرهنگ" },
+    ],
+  },
+  {
+    slug: "science-tech",
+    name_en: "Science & technology",
+    name_fa: "علم و فناوری",
+    children: [
+      { slug: "science", name_en: "Science", name_fa: "علم" },
+      { slug: "technology", name_en: "Technology", name_fa: "فناوری" },
+    ],
+  },
+  {
+    slug: "sport-action",
+    name_en: "Sports & activity",
+    name_fa: "ورزش و فعالیت",
+    children: [
+      { slug: "sport", name_en: "Sports & games", name_fa: "ورزش و بازی" },
+      { slug: "action", name_en: "Actions & movement", name_fa: "اعمال و حرکت" },
+      { slug: "event", name_en: "Events", name_fa: "رویدادها" },
+    ],
+  },
+  {
+    slug: "feelings-qualities",
+    name_en: "Feelings & qualities",
+    name_fa: "احساسات و توصیف",
+    children: [
+      { slug: "emotion", name_en: "Emotions", name_fa: "احساسات" },
+      { slug: "quality", name_en: "Qualities & descriptions", name_fa: "ویژگی‌ها" },
+      { slug: "abstract", name_en: "Abstract concepts", name_fa: "مفاهیم انتزاعی" },
+    ],
+  },
+  {
+    slug: "time-learning",
+    name_en: "Time & learning",
+    name_fa: "زمان و آموزش",
+    children: [
+      { slug: "time", name_en: "Time", name_fa: "زمان" },
+      { slug: "school", name_en: "School & education", name_fa: "آموزش" },
+    ],
+  },
+];
+
+// --- /v1/categories/groups (hierarchical: 12 groups -> 35 leaves) ---
+// Built for vocab-learning UX: home screen shows the 12 groups; tap a group
+// to reveal its 2-5 leaf categories with their word counts.
+app.get("/v1/categories/groups", async (c) => {
+  const { results: counts } = await c.env.DB
+    .prepare(
+      `SELECT c.slug, COUNT(wc.word_id) AS word_count
+       FROM categories c
+       LEFT JOIN word_categories wc ON wc.category_id = c.id
+       GROUP BY c.id`,
+    )
+    .all<{ slug: string; word_count: number }>();
+  const countBySlug = new Map(counts.map((r) => [r.slug, r.word_count]));
+
+  const groups = CATEGORY_GROUPS.map((g) => {
+    const children = g.children.map((leaf) => ({
+      slug: leaf.slug,
+      name_en: leaf.name_en,
+      name_fa: leaf.name_fa,
+      word_count: countBySlug.get(leaf.slug) ?? 0,
+    }));
+    const total = children.reduce((s, l) => s + l.word_count, 0);
+    return {
+      slug: g.slug,
+      name_en: g.name_en,
+      name_fa: g.name_fa,
+      word_count: total,
+      children,
+    };
+  });
+
+  return c.json({ groups });
 });
 
 // --- /v1/categories ---
