@@ -65,6 +65,7 @@ app.get("/", (c) =>
       "GET /v1/meta",
       "GET /v1/words?level=A1&lang=fa&category=food&limit=100&offset=0",
       "GET /v1/words/:english",
+      "GET /v1/words/:english/audio?variant=us|uk",
       "GET /v1/words/:english/translations/:lang",
       "GET /v1/random?level=B1&lang=fa&category=food",
       "GET /v1/categories",
@@ -251,6 +252,13 @@ async function fetchWordPayload(db: D1Database, english: string) {
     .bind(word.id)
     .all<{ slug: string; name_en: string }>();
 
+  const { results: phonetics } = await db
+    .prepare(
+      "SELECT variant, ipa, audio_url FROM word_phonetics WHERE word_id = ?",
+    )
+    .bind(word.id)
+    .all<{ variant: string; ipa: string | null; audio_url: string | null }>();
+
   return {
     ...word,
     senses: senses.map((s) => ({
@@ -258,6 +266,7 @@ async function fetchWordPayload(db: D1Database, english: string) {
       translations: translationsBySense[s.id] ?? [],
     })),
     categories: cats,
+    phonetics,
   };
 }
 
@@ -267,6 +276,29 @@ app.get("/v1/words/:english", async (c) => {
   const payload = await fetchWordPayload(c.env.DB, english);
   if (!payload) return c.json({ error: "word not found", english }, 404);
   return c.json(payload);
+});
+
+// --- /v1/words/:english/audio?variant=us|uk ---
+// 302 redirects to the MP3 on R2. Lets apps use <audio src="..."> directly
+// without doing a JSON fetch first.
+app.get("/v1/words/:english/audio", async (c) => {
+  const english = c.req.param("english").toLowerCase();
+  const variant = c.req.query("variant") ?? "us";
+
+  const row = await c.env.DB
+    .prepare(
+      `SELECT p.audio_url
+       FROM word_phonetics p
+       JOIN words w ON w.id = p.word_id
+       WHERE w.english = ? AND p.variant = ?`,
+    )
+    .bind(english, variant)
+    .first<{ audio_url: string | null }>();
+
+  if (!row?.audio_url) {
+    return c.json({ error: "audio not available", english, variant }, 404);
+  }
+  return c.redirect(row.audio_url, 302);
 });
 
 // --- /v1/words/:english/translations/:lang ---

@@ -45,6 +45,12 @@ def main() -> None:
     word_categories = json.loads(
         (DATA / "word_categories.json").read_text(encoding="utf-8")
     )
+    phonetics_path = DATA / "phonetics.json"
+    phonetics = (
+        json.loads(phonetics_path.read_text(encoding="utf-8"))
+        if phonetics_path.exists()
+        else []
+    )
 
     statements: list[str] = []
 
@@ -104,10 +110,21 @@ def main() -> None:
         "INSERT OR IGNORE INTO word_categories (word_id, category_id) VALUES",
     )
 
+    # word_phonetics (audio URLs + optional IPA)
+    if phonetics:
+        ph_rows = [
+            f"  ('{p['word_id']}', '{p['variant']}', {lit(p.get('ipa'))}, {lit(p.get('audio_url'))})"
+            for p in phonetics
+        ]
+        statements += batched_insert(
+            ph_rows,
+            "INSERT OR REPLACE INTO word_phonetics (word_id, variant, ipa, audio_url) VALUES",
+        )
+
     # dataset_meta
     meta = [
         ("schema_version", "1.0.0"),
-        ("dataset_version", "0.4.0"),
+        ("dataset_version", "0.6.0"),
         ("license", "MIT"),
         ("homepage", "https://github.com/amirj4m/openjam"),
         (
@@ -132,6 +149,7 @@ def main() -> None:
     print(f"  {len(sense_rows)} senses")
     print(f"  {len(translations)} translations")
     print(f"  {len(word_categories)} word-category assignments")
+    print(f"  {len(phonetics)} phonetics rows")
     print(f"  {len(statements)} SQL statements")
 
 

@@ -51,6 +51,15 @@ CREATE TABLE IF NOT EXISTS sense_translations (
 CREATE INDEX IF NOT EXISTS idx_sense_translations_sense_id      ON sense_translations (sense_id);
 CREATE INDEX IF NOT EXISTS idx_sense_translations_language_code ON sense_translations (language_code);
 
+CREATE TABLE IF NOT EXISTS word_phonetics (
+    word_id     TEXT NOT NULL REFERENCES words(id) ON DELETE CASCADE,
+    variant     TEXT NOT NULL CHECK (variant IN ('uk','us','general')),
+    ipa         TEXT,
+    audio_url   TEXT,
+    created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (word_id, variant)
+);
+
 CREATE TABLE IF NOT EXISTS categories (
     id          TEXT PRIMARY KEY,
     slug        TEXT NOT NULL UNIQUE,
