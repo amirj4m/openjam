@@ -1,0 +1,12 @@
+{
+  "name_en": "TOEFL Essential Vocabulary",
+  "name_fa": "لغات ضروری تافل",
+  "description": "Common TOEFL vocabulary across iBT score bands (0-60, 60-80, 80-100). Curated for test-taker progression.",
+  "source_attribution": "Word list compiled from JIHUNJO123/toefl-prep-vocabulary public repository. Definitions and Persian translations original.",
+  "level": "upper-intermediate",
+  "has_groups": true,
+  "group_label": "Score band",
+  "group_label_fa": "محدوده نمره",
+  "word_count": 2632,
+  "slug": "toefl"
+}

@@ -1,0 +1,12 @@
+{
+  "name_en": "IELTS Academic Word List",
+  "name_fa": "لغات آکادمیک آیلتس",
+  "description": "Averil Coxhead's Academic Word List (AWL): 570 head words organized into 10 sublists by frequency in academic texts. Core IELTS prep vocabulary.",
+  "source_attribution": "Academic Word List by Averil Coxhead (publicly available research output). Word list compiled from aytanozu/academic-word-list-en-tr. Definitions and Persian translations original.",
+  "level": "upper-intermediate",
+  "has_groups": true,
+  "group_label": "Sublist",
+  "group_label_fa": "زیرلیست",
+  "word_count": 570,
+  "slug": "ielts"
+}

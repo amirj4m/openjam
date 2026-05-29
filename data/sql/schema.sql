@@ -130,6 +130,37 @@ CREATE TABLE IF NOT EXISTS word_categories (
 CREATE INDEX IF NOT EXISTS idx_word_categories_category_id ON word_categories (category_id);
 
 -- ---------------------------------------------------------------------------
+-- book_lists / book_list_words: curated vocabulary book layer.
+-- This is OPTIONAL. The two tables below can be dropped without
+-- affecting the core dataset. See books/README.md for details.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS book_lists (
+    slug                TEXT PRIMARY KEY,
+    name_en             TEXT NOT NULL,
+    name_fa             TEXT,
+    description         TEXT,
+    source_attribution  TEXT,
+    word_count          INTEGER,
+    has_groups          BOOLEAN DEFAULT FALSE,
+    group_label         TEXT,
+    group_label_fa      TEXT,
+    created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT book_lists_slug_format CHECK (slug ~ '^[a-z0-9-]+$')
+);
+
+CREATE TABLE IF NOT EXISTS book_list_words (
+    book_slug   TEXT NOT NULL REFERENCES book_lists(slug) ON DELETE CASCADE,
+    english     TEXT NOT NULL,
+    word_id     UUID REFERENCES words(id) ON DELETE SET NULL,
+    group_name  TEXT,
+    sort_order  INTEGER,
+    PRIMARY KEY (book_slug, english)
+);
+
+CREATE INDEX IF NOT EXISTS idx_book_list_words_word_id ON book_list_words (word_id);
+CREATE INDEX IF NOT EXISTS idx_book_list_words_group  ON book_list_words (book_slug, group_name);
+
+-- ---------------------------------------------------------------------------
 -- dataset_meta: schema version, dataset version, attribution, etc.
 -- Consumers query this to know what they have.
 -- ---------------------------------------------------------------------------

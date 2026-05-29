@@ -58,6 +58,35 @@ def main() -> None:
         else []
     )
 
+    # --- Optional books layer ---
+    # Parsed from books/<slug>/meta.json + words.json. If the directory
+    # is missing entirely, books tables stay empty (and can be dropped).
+    books_dir = ROOT / "books"
+    book_metas: list[dict] = []
+    book_list_words: list[dict] = []
+    if books_dir.exists():
+        # Build english -> word_id map from core words.
+        eng_to_id = {w["english"]: w["id"] for w in words}
+        for book_dir in sorted(books_dir.iterdir()):
+            if not book_dir.is_dir():
+                continue
+            meta_file = book_dir / "meta.json"
+            words_file = book_dir / "words.json"
+            if not (meta_file.exists() and words_file.exists()):
+                continue
+            meta = json.loads(meta_file.read_text(encoding="utf-8"))
+            wpayload = json.loads(words_file.read_text(encoding="utf-8"))
+            meta["word_count"] = len(wpayload.get("words", []))
+            book_metas.append(meta)
+            for w in wpayload.get("words", []):
+                book_list_words.append({
+                    "book_slug": meta["slug"],
+                    "english": w["english"],
+                    "word_id": eng_to_id.get(w["english"]),
+                    "group_name": w.get("group"),
+                    "sort_order": w.get("order"),
+                })
+
     statements: list[str] = []
 
     # categories
@@ -138,10 +167,50 @@ def main() -> None:
             "INSERT OR IGNORE INTO word_forms (form, word_id, form_type) VALUES",
         )
 
+    # book_lists (optional layer)
+    if book_metas:
+        bl_rows = [
+            "  ({slug}, {name_en}, {name_fa}, {desc}, {src}, {wc}, {hg}, {gl}, {glfa})".format(
+                slug=lit(b["slug"]),
+                name_en=lit(b["name_en"]),
+                name_fa=lit(b.get("name_fa")),
+                desc=lit(b.get("description")),
+                src=lit(b.get("source_attribution")),
+                wc=b["word_count"],
+                hg=1 if b.get("has_groups") else 0,
+                gl=lit(b.get("group_label")),
+                glfa=lit(b.get("group_label_fa")),
+            )
+            for b in book_metas
+        ]
+        statements += batched_insert(
+            bl_rows,
+            "INSERT OR REPLACE INTO book_lists (slug, name_en, name_fa, description, "
+            "source_attribution, word_count, has_groups, group_label, group_label_fa) VALUES",
+        )
+
+    # book_list_words (optional layer)
+    if book_list_words:
+        blw_rows = [
+            "  ({slug}, {eng}, {wid}, {grp}, {ord})".format(
+                slug=lit(r["book_slug"]),
+                eng=lit(r["english"]),
+                wid=f"'{r['word_id']}'" if r.get("word_id") else "NULL",
+                grp=lit(r.get("group_name")),
+                ord=r.get("sort_order") if r.get("sort_order") is not None else "NULL",
+            )
+            for r in book_list_words
+        ]
+        statements += batched_insert(
+            blw_rows,
+            "INSERT OR REPLACE INTO book_list_words "
+            "(book_slug, english, word_id, group_name, sort_order) VALUES",
+        )
+
     # dataset_meta
     meta = [
         ("schema_version", "1.0.0"),
-        ("dataset_version", "0.7.0"),
+        ("dataset_version", "0.8.0"),
         ("license", "MIT"),
         ("homepage", "https://github.com/amirj4m/openjam"),
         (
@@ -168,6 +237,7 @@ def main() -> None:
     print(f"  {len(word_categories)} word-category assignments")
     print(f"  {len(phonetics)} phonetics rows")
     print(f"  {len(word_forms)} word forms")
+    print(f"  {len(book_metas)} books, {len(book_list_words)} book-word memberships")
     print(f"  {len(statements)} SQL statements")
 
 

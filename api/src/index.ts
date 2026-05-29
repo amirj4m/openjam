@@ -76,6 +76,9 @@ app.get("/", (c) =>
       "GET /v1/autocomplete?q=...&lang=en|fa&limit=10",
       "GET /v1/bulk/manifest",
       "GET /v1/bulk/category/:slug?lang=fa",
+      "GET /v1/books  (optional layer — exam/book vocab lists)",
+      "GET /v1/books/:slug",
+      "GET /v1/books/:slug/words?lang=fa&group=lesson-1",
     ],
   }),
 );
@@ -880,6 +883,170 @@ app.get("/v1/bulk/category/:slug", async (c) => {
     language: lang,
     word_count: words.length,
     words,
+  });
+});
+
+// =============================================================================
+// Books layer (optional). These endpoints serve the curated vocabulary lists
+// in books/<slug>/. The whole layer can be dropped without affecting the
+// rest of the API (drop tables book_lists + book_list_words, remove these
+// handlers).
+// =============================================================================
+
+// --- /v1/books (list all books) ---
+app.get("/v1/books", async (c) => {
+  const { results } = await c.env.DB
+    .prepare(
+      `SELECT slug, name_en, name_fa, description, source_attribution,
+              word_count, has_groups, group_label, group_label_fa
+       FROM book_lists
+       ORDER BY name_en`,
+    )
+    .all();
+  return c.json({ data: results });
+});
+
+// --- /v1/books/:slug (book metadata) ---
+app.get("/v1/books/:slug", async (c) => {
+  const slug = c.req.param("slug");
+  const book = await c.env.DB
+    .prepare(
+      `SELECT slug, name_en, name_fa, description, source_attribution,
+              word_count, has_groups, group_label, group_label_fa
+       FROM book_lists WHERE slug = ?`,
+    )
+    .bind(slug)
+    .first();
+  if (!book) return c.json({ error: "book not found", slug }, 404);
+
+  // Also return the list of groups (lesson-1, sublist-1, ...) with counts.
+  const { results: groups } = await c.env.DB
+    .prepare(
+      `SELECT group_name, COUNT(*) AS word_count
+       FROM book_list_words WHERE book_slug = ? AND group_name IS NOT NULL
+       GROUP BY group_name ORDER BY MIN(sort_order)`,
+    )
+    .bind(slug)
+    .all();
+  return c.json({ ...book, groups });
+});
+
+// --- /v1/books/:slug/words?lang=fa&group=lesson-1&limit=50&offset=0 ---
+app.get("/v1/books/:slug/words", async (c) => {
+  const slug = c.req.param("slug");
+  const lang = c.req.query("lang");
+  const group = c.req.query("group");
+  const limit = Math.min(parseInt(c.req.query("limit") ?? "50", 10), 500);
+  const offset = parseInt(c.req.query("offset") ?? "0", 10);
+
+  // Make sure the book exists for a clean 404.
+  const book = await c.env.DB
+    .prepare("SELECT slug, name_en, name_fa FROM book_lists WHERE slug = ?")
+    .bind(slug)
+    .first<{ slug: string; name_en: string; name_fa: string | null }>();
+  if (!book) return c.json({ error: "book not found", slug }, 404);
+
+  // Pull memberships + the matching core word data in a single JOIN.
+  const whereGroup = group ? " AND blw.group_name = ?" : "";
+  const params: unknown[] = [slug];
+  if (group) params.push(group);
+  params.push(limit, offset);
+
+  const { results } = await c.env.DB
+    .prepare(
+      `SELECT blw.english, blw.group_name, blw.sort_order,
+              w.id AS word_id, w.frequency_rank, w.level
+       FROM book_list_words blw
+       LEFT JOIN words w ON w.id = blw.word_id
+       WHERE blw.book_slug = ?${whereGroup}
+       ORDER BY blw.sort_order, blw.english
+       LIMIT ? OFFSET ?`,
+    )
+    .bind(...params)
+    .all<{
+      english: string;
+      group_name: string | null;
+      sort_order: number | null;
+      word_id: string | null;
+      frequency_rank: number | null;
+      level: string | null;
+    }>();
+
+  // If lang is requested, hydrate translations for every word in the page.
+  let translationsByWord: Record<string, unknown[]> = {};
+  let phoneticsByWord: Record<string, unknown[]> = {};
+  if (lang && results.length) {
+    const wordIds = results.map((r) => r.word_id).filter((x): x is string => !!x);
+    if (wordIds.length) {
+      const ph = wordIds.map(() => "?").join(",");
+      const { results: trs } = await c.env.DB
+        .prepare(
+          `SELECT s.word_id, s.part_of_speech, s.sense_order, t.meaning, t.example
+           FROM sense_translations t
+           JOIN word_senses s ON s.id = t.sense_id
+           WHERE s.word_id IN (${ph}) AND t.language_code = ?
+           ORDER BY s.word_id, s.part_of_speech, s.sense_order`,
+        )
+        .bind(...wordIds, lang)
+        .all<{
+          word_id: string;
+          part_of_speech: string;
+          sense_order: number;
+          meaning: string;
+          example: string | null;
+        }>();
+      for (const t of trs) {
+        (translationsByWord[t.word_id] ??= []).push({
+          part_of_speech: t.part_of_speech,
+          sense_order: t.sense_order,
+          meaning: t.meaning,
+          example: t.example,
+        });
+      }
+
+      const { results: phs } = await c.env.DB
+        .prepare(
+          `SELECT word_id, variant, ipa, audio_url
+           FROM word_phonetics
+           WHERE word_id IN (${ph})`,
+        )
+        .bind(...wordIds)
+        .all<{
+          word_id: string;
+          variant: string;
+          ipa: string | null;
+          audio_url: string | null;
+        }>();
+      for (const p of phs) {
+        (phoneticsByWord[p.word_id] ??= []).push({
+          variant: p.variant,
+          ipa: p.ipa,
+          audio_url: p.audio_url,
+        });
+      }
+    }
+  }
+
+  const data = results.map((r) => ({
+    english: r.english,
+    group: r.group_name,
+    sort_order: r.sort_order,
+    in_openjam: r.word_id != null,
+    frequency_rank: r.frequency_rank,
+    level: r.level,
+    ...(lang && r.word_id
+      ? {
+          translations: translationsByWord[r.word_id] ?? [],
+          phonetics: phoneticsByWord[r.word_id] ?? [],
+        }
+      : {}),
+  }));
+
+  return c.json({
+    book,
+    group: group ?? null,
+    word_count: book ? data.length : 0,
+    data,
   });
 });
 

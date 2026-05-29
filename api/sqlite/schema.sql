@@ -90,6 +90,32 @@ CREATE TABLE IF NOT EXISTS word_categories (
 
 CREATE INDEX IF NOT EXISTS idx_word_categories_category_id ON word_categories (category_id);
 
+-- --- Books layer (optional, droppable without affecting core) ---
+CREATE TABLE IF NOT EXISTS book_lists (
+    slug                TEXT PRIMARY KEY,
+    name_en             TEXT NOT NULL,
+    name_fa             TEXT,
+    description         TEXT,
+    source_attribution  TEXT,
+    word_count          INTEGER,
+    has_groups          INTEGER DEFAULT 0,
+    group_label         TEXT,
+    group_label_fa      TEXT,
+    created_at          TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS book_list_words (
+    book_slug   TEXT NOT NULL REFERENCES book_lists(slug) ON DELETE CASCADE,
+    english     TEXT NOT NULL,
+    word_id     TEXT REFERENCES words(id) ON DELETE SET NULL,
+    group_name  TEXT,
+    sort_order  INTEGER,
+    PRIMARY KEY (book_slug, english)
+);
+
+CREATE INDEX IF NOT EXISTS idx_book_list_words_word_id ON book_list_words (word_id);
+CREATE INDEX IF NOT EXISTS idx_book_list_words_group  ON book_list_words (book_slug, group_name);
+
 CREATE TABLE IF NOT EXISTS dataset_meta (
     key         TEXT PRIMARY KEY,
     value       TEXT NOT NULL,

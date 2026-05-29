@@ -235,6 +235,47 @@ sync (download once, store locally, refresh when dataset_version bumps).
 Full category payload (all words + senses + translations) in a single
 response. Handy for "download this category for offline study".
 
+### `GET /v1/books`
+List of curated vocabulary books (504 Essential, IELTS AWL, TOEFL, GRE).
+This is an **optional layer**; ignore it if your app doesn't surface
+exam-prep vocab.
+
+### `GET /v1/books/:slug`
+Book metadata (name in English + Persian, level, description,
+group structure) plus the list of groups (lessons / sublists / score
+bands) with per-group word counts.
+
+### `GET /v1/books/:slug/words?lang=fa&group=lesson-1`
+Words in a book, paginated. Each entry carries `english`, `group`,
+`sort_order`, plus — when `lang` is given — translations and
+phonetics pulled from the core word data. `in_openjam` tells you
+whether the word is fully resolved against the core dataset; a small
+tail of advanced GRE words may stay `false` until a future release.
+
+---
+
+## 4b. Books layer (optional)
+
+A separate, **droppable** layer in the repo holds vocabulary lists
+drawn from study books:
+
+| Book | Slug | Words | Notes |
+|---|---|---|---|
+| 504 Essential English Words | `504-essential` | 504 | 42 lessons × 12 words; classic foundational list |
+| IELTS Academic Word List | `ielts` | 570 | Coxhead's AWL, 10 sublists by frequency |
+| TOEFL Essential Vocabulary | `toefl` | ~2600 | Bands by iBT score (0-60, 60-80, 80-100) |
+| GRE 3000 Vocabulary | `gre` | ~3000 | Advanced GRE high-frequency list |
+
+The books reference the **same** core word data (translations, audio,
+IPA, categories, inflections), so adding a book page to your app costs
+no extra plumbing — fetch `/v1/books/<slug>/words?lang=fa` and reuse
+the same word-detail screen for taps.
+
+Books are isolated by design (`book_lists` + `book_list_words` tables
+in D1, `books/` directory in repo). If you don't need them, ignore.
+If we drop them in a future release, the rest of the API is
+unaffected.
+
 ---
 
 ## 5. Audio

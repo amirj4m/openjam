@@ -1,0 +1,12 @@
+{
+  "name_en": "504 Essential English Words",
+  "name_fa": "۵۰۴ لغت ضروری",
+  "description": "Classic foundational English vocabulary list, popular in Persian-Iranian study tradition. 42 lessons of 12 words each.",
+  "source_attribution": "Word list compiled from public study materials (shahsuvarli/504-essential-words). Definitions and Persian translations in this dataset are original, generated via Claude.",
+  "level": "intermediate",
+  "has_groups": true,
+  "group_label": "Lesson",
+  "group_label_fa": "درس",
+  "word_count": 504,
+  "slug": "504-essential"
+}

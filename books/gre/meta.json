@@ -1,0 +1,10 @@
+{
+  "name_en": "GRE 3000 Vocabulary",
+  "name_fa": "لغات GRE ۳۰۰۰",
+  "description": "Comprehensive GRE high-frequency vocabulary list. 3000+ advanced English words drawn from GRE test corpora.",
+  "source_attribution": "Word list compiled from Dramalf/GRE3000-cli public repository. Definitions and Persian translations original.",
+  "level": "advanced",
+  "has_groups": false,
+  "word_count": 3036,
+  "slug": "gre"
+}

@@ -1,0 +1,2525 @@
+{
+  "version": "1.0",
+  "words": [
+    {
+      "english": "abandon",
+      "group": "lesson-1",
+      "order": 1
+    },
+    {
+      "english": "keen",
+      "group": "lesson-1",
+      "order": 2
+    },
+    {
+      "english": "jealous",
+      "group": "lesson-1",
+      "order": 3
+    },
+    {
+      "english": "tact",
+      "group": "lesson-1",
+      "order": 4
+    },
+    {
+      "english": "oath",
+      "group": "lesson-1",
+      "order": 5
+    },
+    {
+      "english": "vacant",
+      "group": "lesson-1",
+      "order": 6
+    },
+    {
+      "english": "hardship",
+      "group": "lesson-1",
+      "order": 7
+    },
+    {
+      "english": "gallant",
+      "group": "lesson-1",
+      "order": 8
+    },
+    {
+      "english": "data",
+      "group": "lesson-1",
+      "order": 9
+    },
+    {
+      "english": "unaccustomed",
+      "group": "lesson-1",
+      "order": 10
+    },
+    {
+      "english": "bachelor",
+      "group": "lesson-1",
+      "order": 11
+    },
+    {
+      "english": "qualify",
+      "group": "lesson-1",
+      "order": 12
+    },
+    {
+      "english": "corpse",
+      "group": "lesson-2",
+      "order": 1
+    },
+    {
+      "english": "conceal",
+      "group": "lesson-2",
+      "order": 2
+    },
+    {
+      "english": "dismal",
+      "group": "lesson-2",
+      "order": 3
+    },
+    {
+      "english": "frigid",
+      "group": "lesson-2",
+      "order": 4
+    },
+    {
+      "english": "inhabit",
+      "group": "lesson-2",
+      "order": 5
+    },
+    {
+      "english": "numb",
+      "group": "lesson-2",
+      "order": 6
+    },
+    {
+      "english": "peril",
+      "group": "lesson-2",
+      "order": 7
+    },
+    {
+      "english": "recline",
+      "group": "lesson-2",
+      "order": 8
+    },
+    {
+      "english": "shriek",
+      "group": "lesson-2",
+      "order": 9
+    },
+    {
+      "english": "sinister",
+      "group": "lesson-2",
+      "order": 10
+    },
+    {
+      "english": "tempt",
+      "group": "lesson-2",
+      "order": 11
+    },
+    {
+      "english": "wager",
+      "group": "lesson-2",
+      "order": 12
+    },
+    {
+      "english": "typical",
+      "group": "lesson-3",
+      "order": 1
+    },
+    {
+      "english": "minimum",
+      "group": "lesson-3",
+      "order": 2
+    },
+    {
+      "english": "scarce",
+      "group": "lesson-3",
+      "order": 3
+    },
+    {
+      "english": "annual",
+      "group": "lesson-3",
+      "order": 4
+    },
+    {
+      "english": "persuade",
+      "group": "lesson-3",
+      "order": 5
+    },
+    {
+      "english": "essential",
+      "group": "lesson-3",
+      "order": 6
+    },
+    {
+      "english": "blend",
+      "group": "lesson-3",
+      "order": 7
+    },
+    {
+      "english": "visible",
+      "group": "lesson-3",
+      "order": 8
+    },
+    {
+      "english": "expensive",
+      "group": "lesson-3",
+      "order": 9
+    },
+    {
+      "english": "talent",
+      "group": "lesson-3",
+      "order": 10
+    },
+    {
+      "english": "devise",
+      "group": "lesson-3",
+      "order": 11
+    },
+    {
+      "english": "wholesale",
+      "group": "lesson-3",
+      "order": 12
+    },
+    {
+      "english": "vapor",
+      "group": "lesson-4",
+      "order": 1
+    },
+    {
+      "english": "eliminate",
+      "group": "lesson-4",
+      "order": 2
+    },
+    {
+      "english": "villain",
+      "group": "lesson-4",
+      "order": 3
+    },
+    {
+      "english": "dense",
+      "group": "lesson-4",
+      "order": 4
+    },
+    {
+      "english": "utilize",
+      "group": "lesson-4",
+      "order": 5
+    },
+    {
+      "english": "humid",
+      "group": "lesson-4",
+      "order": 6
+    },
+    {
+      "english": "theory",
+      "group": "lesson-4",
+      "order": 7
+    },
+    {
+      "english": "descend",
+      "group": "lesson-4",
+      "order": 8
+    },
+    {
+      "english": "circulate",
+      "group": "lesson-4",
+      "order": 9
+    },
+    {
+      "english": "enormous",
+      "group": "lesson-4",
+      "order": 10
+    },
+    {
+      "english": "predict",
+      "group": "lesson-4",
+      "order": 11
+    },
+    {
+      "english": "vanish",
+      "group": "lesson-4",
+      "order": 12
+    },
+    {
+      "english": "tradition",
+      "group": "lesson-5",
+      "order": 1
+    },
+    {
+      "english": "rural",
+      "group": "lesson-5",
+      "order": 2
+    },
+    {
+      "english": "burden",
+      "group": "lesson-5",
+      "order": 3
+    },
+    {
+      "english": "campus",
+      "group": "lesson-5",
+      "order": 4
+    },
+    {
+      "english": "majority",
+      "group": "lesson-5",
+      "order": 5
+    },
+    {
+      "english": "assemble",
+      "group": "lesson-5",
+      "order": 6
+    },
+    {
+      "english": "explore",
+      "group": "lesson-5",
+      "order": 7
+    },
+    {
+      "english": "topic",
+      "group": "lesson-5",
+      "order": 8
+    },
+    {
+      "english": "debate",
+      "group": "lesson-5",
+      "order": 9
+    },
+    {
+      "english": "evade",
+      "group": "lesson-5",
+      "order": 10
+    },
+    {
+      "english": "probe",
+      "group": "lesson-5",
+      "order": 11
+    },
+    {
+      "english": "reform",
+      "group": "lesson-5",
+      "order": 12
+    },
+    {
+      "english": "approach",
+      "group": "lesson-6",
+      "order": 1
+    },
+    {
+      "english": "detect",
+      "group": "lesson-6",
+      "order": 2
+    },
+    {
+      "english": "defect",
+      "group": "lesson-6",
+      "order": 3
+    },
+    {
+      "english": "employee",
+      "group": "lesson-6",
+      "order": 4
+    },
+    {
+      "english": "neglect",
+      "group": "lesson-6",
+      "order": 5
+    },
+    {
+      "english": "deceive",
+      "group": "lesson-6",
+      "order": 6
+    },
+    {
+      "english": "undoubtedly",
+      "group": "lesson-6",
+      "order": 7
+    },
+    {
+      "english": "popular",
+      "group": "lesson-6",
+      "order": 8
+    },
+    {
+      "english": "thorough",
+      "group": "lesson-6",
+      "order": 9
+    },
+    {
+      "english": "client",
+      "group": "lesson-6",
+      "order": 10
+    },
+    {
+      "english": "comprehensive",
+      "group": "lesson-6",
+      "order": 11
+    },
+    {
+      "english": "defraud",
+      "group": "lesson-6",
+      "order": 12
+    },
+    {
+      "english": "postpone",
+      "group": "lesson-7",
+      "order": 1
+    },
+    {
+      "english": "consent",
+      "group": "lesson-7",
+      "order": 2
+    },
+    {
+      "english": "massive",
+      "group": "lesson-7",
+      "order": 3
+    },
+    {
+      "english": "capsule",
+      "group": "lesson-7",
+      "order": 4
+    },
+    {
+      "english": "preserve",
+      "group": "lesson-7",
+      "order": 5
+    },
+    {
+      "english": "denounce",
+      "group": "lesson-7",
+      "order": 6
+    },
+    {
+      "english": "unique",
+      "group": "lesson-7",
+      "order": 7
+    },
+    {
+      "english": "torrent",
+      "group": "lesson-7",
+      "order": 8
+    },
+    {
+      "english": "resent",
+      "group": "lesson-7",
+      "order": 9
+    },
+    {
+      "english": "molest",
+      "group": "lesson-7",
+      "order": 10
+    },
+    {
+      "english": "gloomy",
+      "group": "lesson-7",
+      "order": 11
+    },
+    {
+      "english": "unforeseen",
+      "group": "lesson-7",
+      "order": 12
+    },
+    {
+      "english": "exaggerate",
+      "group": "lesson-8",
+      "order": 1
+    },
+    {
+      "english": "amateur",
+      "group": "lesson-8",
+      "order": 2
+    },
+    {
+      "english": "mediocre",
+      "group": "lesson-8",
+      "order": 3
+    },
+    {
+      "english": "variety",
+      "group": "lesson-8",
+      "order": 4
+    },
+    {
+      "english": "valid",
+      "group": "lesson-8",
+      "order": 5
+    },
+    {
+      "english": "survive",
+      "group": "lesson-8",
+      "order": 6
+    },
+    {
+      "english": "weird",
+      "group": "lesson-8",
+      "order": 7
+    },
+    {
+      "english": "prominent",
+      "group": "lesson-8",
+      "order": 8
+    },
+    {
+      "english": "security",
+      "group": "lesson-8",
+      "order": 9
+    },
+    {
+      "english": "bulky",
+      "group": "lesson-8",
+      "order": 10
+    },
+    {
+      "english": "reluctant",
+      "group": "lesson-8",
+      "order": 11
+    },
+    {
+      "english": "obvious",
+      "group": "lesson-8",
+      "order": 12
+    },
+    {
+      "english": "vicinity",
+      "group": "lesson-9",
+      "order": 1
+    },
+    {
+      "english": "century",
+      "group": "lesson-9",
+      "order": 2
+    },
+    {
+      "english": "rage",
+      "group": "lesson-9",
+      "order": 3
+    },
+    {
+      "english": "document",
+      "group": "lesson-9",
+      "order": 4
+    },
+    {
+      "english": "conclude",
+      "group": "lesson-9",
+      "order": 5
+    },
+    {
+      "english": "undeniable",
+      "group": "lesson-9",
+      "order": 6
+    },
+    {
+      "english": "resist",
+      "group": "lesson-9",
+      "order": 7
+    },
+    {
+      "english": "lack",
+      "group": "lesson-9",
+      "order": 8
+    },
+    {
+      "english": "ignore",
+      "group": "lesson-9",
+      "order": 9
+    },
+    {
+      "english": "challenge",
+      "group": "lesson-9",
+      "order": 10
+    },
+    {
+      "english": "miniature",
+      "group": "lesson-9",
+      "order": 11
+    },
+    {
+      "english": "source",
+      "group": "lesson-9",
+      "order": 12
+    },
+    {
+      "english": "excel",
+      "group": "lesson-10",
+      "order": 1
+    },
+    {
+      "english": "feminine",
+      "group": "lesson-10",
+      "order": 2
+    },
+    {
+      "english": "mount",
+      "group": "lesson-10",
+      "order": 3
+    },
+    {
+      "english": "compete",
+      "group": "lesson-10",
+      "order": 4
+    },
+    {
+      "english": "dread",
+      "group": "lesson-10",
+      "order": 5
+    },
+    {
+      "english": "masculine",
+      "group": "lesson-10",
+      "order": 6
+    },
+    {
+      "english": "menace",
+      "group": "lesson-10",
+      "order": 7
+    },
+    {
+      "english": "tendency",
+      "group": "lesson-10",
+      "order": 8
+    },
+    {
+      "english": "underestimate",
+      "group": "lesson-10",
+      "order": 9
+    },
+    {
+      "english": "victorious",
+      "group": "lesson-10",
+      "order": 10
+    },
+    {
+      "english": "numerous",
+      "group": "lesson-10",
+      "order": 11
+    },
+    {
+      "english": "flexible",
+      "group": "lesson-10",
+      "order": 12
+    },
+    {
+      "english": "evidence",
+      "group": "lesson-11",
+      "order": 1
+    },
+    {
+      "english": "solitary",
+      "group": "lesson-11",
+      "order": 2
+    },
+    {
+      "english": "vision",
+      "group": "lesson-11",
+      "order": 3
+    },
+    {
+      "english": "frequent",
+      "group": "lesson-11",
+      "order": 4
+    },
+    {
+      "english": "glimpse",
+      "group": "lesson-11",
+      "order": 5
+    },
+    {
+      "english": "recent",
+      "group": "lesson-11",
+      "order": 6
+    },
+    {
+      "english": "decade",
+      "group": "lesson-11",
+      "order": 7
+    },
+    {
+      "english": "hesitate",
+      "group": "lesson-11",
+      "order": 8
+    },
+    {
+      "english": "absurd",
+      "group": "lesson-11",
+      "order": 9
+    },
+    {
+      "english": "conflict",
+      "group": "lesson-11",
+      "order": 10
+    },
+    {
+      "english": "minority",
+      "group": "lesson-11",
+      "order": 11
+    },
+    {
+      "english": "fiction",
+      "group": "lesson-11",
+      "order": 12
+    },
+    {
+      "english": "ignite",
+      "group": "lesson-12",
+      "order": 1
+    },
+    {
+      "english": "abolish",
+      "group": "lesson-12",
+      "order": 2
+    },
+    {
+      "english": "urban",
+      "group": "lesson-12",
+      "order": 3
+    },
+    {
+      "english": "population",
+      "group": "lesson-12",
+      "order": 4
+    },
+    {
+      "english": "frank",
+      "group": "lesson-12",
+      "order": 5
+    },
+    {
+      "english": "pollute",
+      "group": "lesson-12",
+      "order": 6
+    },
+    {
+      "english": "reveal",
+      "group": "lesson-12",
+      "order": 7
+    },
+    {
+      "english": "prohibit",
+      "group": "lesson-12",
+      "order": 8
+    },
+    {
+      "english": "urgent",
+      "group": "lesson-12",
+      "order": 9
+    },
+    {
+      "english": "adequate",
+      "group": "lesson-12",
+      "order": 10
+    },
+    {
+      "english": "decrease",
+      "group": "lesson-12",
+      "order": 11
+    },
+    {
+      "english": "audible",
+      "group": "lesson-12",
+      "order": 12
+    },
+    {
+      "english": "journalist",
+      "group": "lesson-13",
+      "order": 1
+    },
+    {
+      "english": "famine",
+      "group": "lesson-13",
+      "order": 2
+    },
+    {
+      "english": "revive",
+      "group": "lesson-13",
+      "order": 3
+    },
+    {
+      "english": "commence",
+      "group": "lesson-13",
+      "order": 4
+    },
+    {
+      "english": "observant",
+      "group": "lesson-13",
+      "order": 5
+    },
+    {
+      "english": "identify",
+      "group": "lesson-13",
+      "order": 6
+    },
+    {
+      "english": "migrate",
+      "group": "lesson-13",
+      "order": 7
+    },
+    {
+      "english": "vessel",
+      "group": "lesson-13",
+      "order": 8
+    },
+    {
+      "english": "persist",
+      "group": "lesson-13",
+      "order": 9
+    },
+    {
+      "english": "hazy",
+      "group": "lesson-13",
+      "order": 10
+    },
+    {
+      "english": "gleam",
+      "group": "lesson-13",
+      "order": 11
+    },
+    {
+      "english": "editor",
+      "group": "lesson-13",
+      "order": 12
+    },
+    {
+      "english": "unruly",
+      "group": "lesson-14",
+      "order": 1
+    },
+    {
+      "english": "rival",
+      "group": "lesson-14",
+      "order": 2
+    },
+    {
+      "english": "violent",
+      "group": "lesson-14",
+      "order": 3
+    },
+    {
+      "english": "brutal",
+      "group": "lesson-14",
+      "order": 4
+    },
+    {
+      "english": "opponent",
+      "group": "lesson-14",
+      "order": 5
+    },
+    {
+      "english": "brawl",
+      "group": "lesson-14",
+      "order": 6
+    },
+    {
+      "english": "duplicate",
+      "group": "lesson-14",
+      "order": 7
+    },
+    {
+      "english": "vicious",
+      "group": "lesson-14",
+      "order": 8
+    },
+    {
+      "english": "whirling",
+      "group": "lesson-14",
+      "order": 9
+    },
+    {
+      "english": "underdog",
+      "group": "lesson-14",
+      "order": 10
+    },
+    {
+      "english": "thrust",
+      "group": "lesson-14",
+      "order": 11
+    },
+    {
+      "english": "bewildered",
+      "group": "lesson-14",
+      "order": 12
+    },
+    {
+      "english": "expand",
+      "group": "lesson-15",
+      "order": 1
+    },
+    {
+      "english": "alter",
+      "group": "lesson-15",
+      "order": 2
+    },
+    {
+      "english": "mature",
+      "group": "lesson-15",
+      "order": 3
+    },
+    {
+      "english": "sacred",
+      "group": "lesson-15",
+      "order": 4
+    },
+    {
+      "english": "revise",
+      "group": "lesson-15",
+      "order": 5
+    },
+    {
+      "english": "pledge",
+      "group": "lesson-15",
+      "order": 6
+    },
+    {
+      "english": "casual",
+      "group": "lesson-15",
+      "order": 7
+    },
+    {
+      "english": "pursue",
+      "group": "lesson-15",
+      "order": 8
+    },
+    {
+      "english": "unanimous",
+      "group": "lesson-15",
+      "order": 9
+    },
+    {
+      "english": "fortunate",
+      "group": "lesson-15",
+      "order": 10
+    },
+    {
+      "english": "pioneer",
+      "group": "lesson-15",
+      "order": 11
+    },
+    {
+      "english": "innovative",
+      "group": "lesson-15",
+      "order": 12
+    },
+    {
+      "english": "slender",
+      "group": "lesson-16",
+      "order": 1
+    },
+    {
+      "english": "surpass",
+      "group": "lesson-16",
+      "order": 2
+    },
+    {
+      "english": "vast",
+      "group": "lesson-16",
+      "order": 3
+    },
+    {
+      "english": "doubt",
+      "group": "lesson-16",
+      "order": 4
+    },
+    {
+      "english": "capacity",
+      "group": "lesson-16",
+      "order": 5
+    },
+    {
+      "english": "penetrate",
+      "group": "lesson-16",
+      "order": 6
+    },
+    {
+      "english": "pierce",
+      "group": "lesson-16",
+      "order": 7
+    },
+    {
+      "english": "accurate",
+      "group": "lesson-16",
+      "order": 8
+    },
+    {
+      "english": "microscope",
+      "group": "lesson-16",
+      "order": 9
+    },
+    {
+      "english": "grateful",
+      "group": "lesson-16",
+      "order": 10
+    },
+    {
+      "english": "cautious",
+      "group": "lesson-16",
+      "order": 11
+    },
+    {
+      "english": "confident",
+      "group": "lesson-16",
+      "order": 12
+    },
+    {
+      "english": "appeal",
+      "group": "lesson-17",
+      "order": 1
+    },
+    {
+      "english": "addict",
+      "group": "lesson-17",
+      "order": 2
+    },
+    {
+      "english": "wary",
+      "group": "lesson-17",
+      "order": 3
+    },
+    {
+      "english": "aware",
+      "group": "lesson-17",
+      "order": 4
+    },
+    {
+      "english": "misfortune",
+      "group": "lesson-17",
+      "order": 5
+    },
+    {
+      "english": "avoid",
+      "group": "lesson-17",
+      "order": 6
+    },
+    {
+      "english": "wretched",
+      "group": "lesson-17",
+      "order": 7
+    },
+    {
+      "english": "keg",
+      "group": "lesson-17",
+      "order": 8
+    },
+    {
+      "english": "nourish",
+      "group": "lesson-17",
+      "order": 9
+    },
+    {
+      "english": "harsh",
+      "group": "lesson-17",
+      "order": 10
+    },
+    {
+      "english": "quantity",
+      "group": "lesson-17",
+      "order": 11
+    },
+    {
+      "english": "opt",
+      "group": "lesson-17",
+      "order": 12
+    },
+    {
+      "english": "tragedy",
+      "group": "lesson-18",
+      "order": 1
+    },
+    {
+      "english": "pedestrian",
+      "group": "lesson-18",
+      "order": 2
+    },
+    {
+      "english": "glance",
+      "group": "lesson-18",
+      "order": 3
+    },
+    {
+      "english": "budget",
+      "group": "lesson-18",
+      "order": 4
+    },
+    {
+      "english": "nimble",
+      "group": "lesson-18",
+      "order": 5
+    },
+    {
+      "english": "manipulate",
+      "group": "lesson-18",
+      "order": 6
+    },
+    {
+      "english": "reckless",
+      "group": "lesson-18",
+      "order": 7
+    },
+    {
+      "english": "horrid",
+      "group": "lesson-18",
+      "order": 8
+    },
+    {
+      "english": "rave",
+      "group": "lesson-18",
+      "order": 9
+    },
+    {
+      "english": "economical",
+      "group": "lesson-18",
+      "order": 10
+    },
+    {
+      "english": "lubricate",
+      "group": "lesson-18",
+      "order": 11
+    },
+    {
+      "english": "ingenious",
+      "group": "lesson-18",
+      "order": 12
+    },
+    {
+      "english": "harvest",
+      "group": "lesson-19",
+      "order": 1
+    },
+    {
+      "english": "abundant",
+      "group": "lesson-19",
+      "order": 2
+    },
+    {
+      "english": "uneasy",
+      "group": "lesson-19",
+      "order": 3
+    },
+    {
+      "english": "calculate",
+      "group": "lesson-19",
+      "order": 4
+    },
+    {
+      "english": "absorb",
+      "group": "lesson-19",
+      "order": 5
+    },
+    {
+      "english": "estimate",
+      "group": "lesson-19",
+      "order": 6
+    },
+    {
+      "english": "morsel",
+      "group": "lesson-19",
+      "order": 7
+    },
+    {
+      "english": "quota",
+      "group": "lesson-19",
+      "order": 8
+    },
+    {
+      "english": "threat",
+      "group": "lesson-19",
+      "order": 9
+    },
+    {
+      "english": "ban",
+      "group": "lesson-19",
+      "order": 10
+    },
+    {
+      "english": "panic",
+      "group": "lesson-19",
+      "order": 11
+    },
+    {
+      "english": "appropriate",
+      "group": "lesson-19",
+      "order": 12
+    },
+    {
+      "english": "emerge",
+      "group": "lesson-20",
+      "order": 1
+    },
+    {
+      "english": "jagged",
+      "group": "lesson-20",
+      "order": 2
+    },
+    {
+      "english": "linger",
+      "group": "lesson-20",
+      "order": 3
+    },
+    {
+      "english": "ambush",
+      "group": "lesson-20",
+      "order": 4
+    },
+    {
+      "english": "crafty",
+      "group": "lesson-20",
+      "order": 5
+    },
+    {
+      "english": "defiant",
+      "group": "lesson-20",
+      "order": 6
+    },
+    {
+      "english": "vigor",
+      "group": "lesson-20",
+      "order": 7
+    },
+    {
+      "english": "perish",
+      "group": "lesson-20",
+      "order": 8
+    },
+    {
+      "english": "fragile",
+      "group": "lesson-20",
+      "order": 9
+    },
+    {
+      "english": "captive",
+      "group": "lesson-20",
+      "order": 10
+    },
+    {
+      "english": "prosper",
+      "group": "lesson-20",
+      "order": 11
+    },
+    {
+      "english": "devour",
+      "group": "lesson-20",
+      "order": 12
+    },
+    {
+      "english": "plea",
+      "group": "lesson-21",
+      "order": 1
+    },
+    {
+      "english": "weary",
+      "group": "lesson-21",
+      "order": 2
+    },
+    {
+      "english": "collide",
+      "group": "lesson-21",
+      "order": 3
+    },
+    {
+      "english": "confirm",
+      "group": "lesson-21",
+      "order": 4
+    },
+    {
+      "english": "verify",
+      "group": "lesson-21",
+      "order": 5
+    },
+    {
+      "english": "anticipate",
+      "group": "lesson-21",
+      "order": 6
+    },
+    {
+      "english": "dilemma",
+      "group": "lesson-21",
+      "order": 7
+    },
+    {
+      "english": "detour",
+      "group": "lesson-21",
+      "order": 8
+    },
+    {
+      "english": "merit",
+      "group": "lesson-21",
+      "order": 9
+    },
+    {
+      "english": "transmit",
+      "group": "lesson-21",
+      "order": 10
+    },
+    {
+      "english": "relieve",
+      "group": "lesson-21",
+      "order": 11
+    },
+    {
+      "english": "baffle",
+      "group": "lesson-21",
+      "order": 12
+    },
+    {
+      "english": "warden",
+      "group": "lesson-22",
+      "order": 1
+    },
+    {
+      "english": "acknowledge",
+      "group": "lesson-22",
+      "order": 2
+    },
+    {
+      "english": "justice",
+      "group": "lesson-22",
+      "order": 3
+    },
+    {
+      "english": "delinquent",
+      "group": "lesson-22",
+      "order": 4
+    },
+    {
+      "english": "reject",
+      "group": "lesson-22",
+      "order": 5
+    },
+    {
+      "english": "deprive",
+      "group": "lesson-22",
+      "order": 6
+    },
+    {
+      "english": "spouse",
+      "group": "lesson-22",
+      "order": 7
+    },
+    {
+      "english": "vocation",
+      "group": "lesson-22",
+      "order": 8
+    },
+    {
+      "english": "unstable",
+      "group": "lesson-22",
+      "order": 9
+    },
+    {
+      "english": "homicide",
+      "group": "lesson-22",
+      "order": 10
+    },
+    {
+      "english": "penalize",
+      "group": "lesson-22",
+      "order": 11
+    },
+    {
+      "english": "beneficiary",
+      "group": "lesson-22",
+      "order": 12
+    },
+    {
+      "english": "reptile",
+      "group": "lesson-23",
+      "order": 1
+    },
+    {
+      "english": "rarely",
+      "group": "lesson-23",
+      "order": 2
+    },
+    {
+      "english": "forbid",
+      "group": "lesson-23",
+      "order": 3
+    },
+    {
+      "english": "logical",
+      "group": "lesson-23",
+      "order": 4
+    },
+    {
+      "english": "exhibit",
+      "group": "lesson-23",
+      "order": 5
+    },
+    {
+      "english": "proceed",
+      "group": "lesson-23",
+      "order": 6
+    },
+    {
+      "english": "precaution",
+      "group": "lesson-23",
+      "order": 7
+    },
+    {
+      "english": "extract",
+      "group": "lesson-23",
+      "order": 8
+    },
+    {
+      "english": "prior",
+      "group": "lesson-23",
+      "order": 9
+    },
+    {
+      "english": "embrace",
+      "group": "lesson-23",
+      "order": 10
+    },
+    {
+      "english": "valiant",
+      "group": "lesson-23",
+      "order": 11
+    },
+    {
+      "english": "partial",
+      "group": "lesson-23",
+      "order": 12
+    },
+    {
+      "english": "fierce",
+      "group": "lesson-24",
+      "order": 1
+    },
+    {
+      "english": "detest",
+      "group": "lesson-24",
+      "order": 2
+    },
+    {
+      "english": "sneer",
+      "group": "lesson-24",
+      "order": 3
+    },
+    {
+      "english": "scowl",
+      "group": "lesson-24",
+      "order": 4
+    },
+    {
+      "english": "encourage",
+      "group": "lesson-24",
+      "order": 5
+    },
+    {
+      "english": "consider",
+      "group": "lesson-24",
+      "order": 6
+    },
+    {
+      "english": "vermin",
+      "group": "lesson-24",
+      "order": 7
+    },
+    {
+      "english": "wail",
+      "group": "lesson-24",
+      "order": 8
+    },
+    {
+      "english": "symbol",
+      "group": "lesson-24",
+      "order": 9
+    },
+    {
+      "english": "authority",
+      "group": "lesson-24",
+      "order": 10
+    },
+    {
+      "english": "neutral",
+      "group": "lesson-24",
+      "order": 11
+    },
+    {
+      "english": "trifle",
+      "group": "lesson-24",
+      "order": 12
+    },
+    {
+      "english": "architect",
+      "group": "lesson-25",
+      "order": 1
+    },
+    {
+      "english": "matrimony",
+      "group": "lesson-25",
+      "order": 2
+    },
+    {
+      "english": "baggage",
+      "group": "lesson-25",
+      "order": 3
+    },
+    {
+      "english": "squander",
+      "group": "lesson-25",
+      "order": 4
+    },
+    {
+      "english": "abroad",
+      "group": "lesson-25",
+      "order": 5
+    },
+    {
+      "english": "fugitive",
+      "group": "lesson-25",
+      "order": 6
+    },
+    {
+      "english": "calamity",
+      "group": "lesson-25",
+      "order": 7
+    },
+    {
+      "english": "pauper",
+      "group": "lesson-25",
+      "order": 8
+    },
+    {
+      "english": "envy",
+      "group": "lesson-25",
+      "order": 9
+    },
+    {
+      "english": "collapse",
+      "group": "lesson-25",
+      "order": 10
+    },
+    {
+      "english": "prosecute",
+      "group": "lesson-25",
+      "order": 11
+    },
+    {
+      "english": "bigamy",
+      "group": "lesson-25",
+      "order": 12
+    },
+    {
+      "english": "possible",
+      "group": "lesson-26",
+      "order": 1
+    },
+    {
+      "english": "compel",
+      "group": "lesson-26",
+      "order": 2
+    },
+    {
+      "english": "awkward",
+      "group": "lesson-26",
+      "order": 3
+    },
+    {
+      "english": "venture",
+      "group": "lesson-26",
+      "order": 4
+    },
+    {
+      "english": "awesome",
+      "group": "lesson-26",
+      "order": 5
+    },
+    {
+      "english": "guide",
+      "group": "lesson-26",
+      "order": 6
+    },
+    {
+      "english": "quench",
+      "group": "lesson-26",
+      "order": 7
+    },
+    {
+      "english": "betray",
+      "group": "lesson-26",
+      "order": 8
+    },
+    {
+      "english": "utter",
+      "group": "lesson-26",
+      "order": 9
+    },
+    {
+      "english": "pacify",
+      "group": "lesson-26",
+      "order": 10
+    },
+    {
+      "english": "respond",
+      "group": "lesson-26",
+      "order": 11
+    },
+    {
+      "english": "beckon",
+      "group": "lesson-26",
+      "order": 12
+    },
+    {
+      "english": "despite",
+      "group": "lesson-27",
+      "order": 1
+    },
+    {
+      "english": "disrupt",
+      "group": "lesson-27",
+      "order": 2
+    },
+    {
+      "english": "rash",
+      "group": "lesson-27",
+      "order": 3
+    },
+    {
+      "english": "rapid",
+      "group": "lesson-27",
+      "order": 4
+    },
+    {
+      "english": "exhaust",
+      "group": "lesson-27",
+      "order": 5
+    },
+    {
+      "english": "severity",
+      "group": "lesson-27",
+      "order": 6
+    },
+    {
+      "english": "feeble",
+      "group": "lesson-27",
+      "order": 7
+    },
+    {
+      "english": "unite",
+      "group": "lesson-27",
+      "order": 8
+    },
+    {
+      "english": "cease",
+      "group": "lesson-27",
+      "order": 9
+    },
+    {
+      "english": "thrifty",
+      "group": "lesson-27",
+      "order": 10
+    },
+    {
+      "english": "miserly",
+      "group": "lesson-27",
+      "order": 11
+    },
+    {
+      "english": "monarch",
+      "group": "lesson-27",
+      "order": 12
+    },
+    {
+      "english": "outlaw",
+      "group": "lesson-28",
+      "order": 1
+    },
+    {
+      "english": "promote",
+      "group": "lesson-28",
+      "order": 2
+    },
+    {
+      "english": "undernourished",
+      "group": "lesson-28",
+      "order": 3
+    },
+    {
+      "english": "illustrate",
+      "group": "lesson-28",
+      "order": 4
+    },
+    {
+      "english": "disclose",
+      "group": "lesson-28",
+      "order": 5
+    },
+    {
+      "english": "excessive",
+      "group": "lesson-28",
+      "order": 6
+    },
+    {
+      "english": "disaster",
+      "group": "lesson-28",
+      "order": 7
+    },
+    {
+      "english": "censor",
+      "group": "lesson-28",
+      "order": 8
+    },
+    {
+      "english": "culprit",
+      "group": "lesson-28",
+      "order": 9
+    },
+    {
+      "english": "juvenile",
+      "group": "lesson-28",
+      "order": 10
+    },
+    {
+      "english": "bait",
+      "group": "lesson-28",
+      "order": 11
+    },
+    {
+      "english": "insist",
+      "group": "lesson-28",
+      "order": 12
+    },
+    {
+      "english": "toil",
+      "group": "lesson-29",
+      "order": 1
+    },
+    {
+      "english": "blunder",
+      "group": "lesson-29",
+      "order": 2
+    },
+    {
+      "english": "daze",
+      "group": "lesson-29",
+      "order": 3
+    },
+    {
+      "english": "mourn",
+      "group": "lesson-29",
+      "order": 4
+    },
+    {
+      "english": "subside",
+      "group": "lesson-29",
+      "order": 5
+    },
+    {
+      "english": "maim",
+      "group": "lesson-29",
+      "order": 6
+    },
+    {
+      "english": "comprehend",
+      "group": "lesson-29",
+      "order": 7
+    },
+    {
+      "english": "commend",
+      "group": "lesson-29",
+      "order": 8
+    },
+    {
+      "english": "final",
+      "group": "lesson-29",
+      "order": 9
+    },
+    {
+      "english": "exempt",
+      "group": "lesson-29",
+      "order": 10
+    },
+    {
+      "english": "vain",
+      "group": "lesson-29",
+      "order": 11
+    },
+    {
+      "english": "repetition",
+      "group": "lesson-29",
+      "order": 12
+    },
+    {
+      "english": "depict",
+      "group": "lesson-30",
+      "order": 1
+    },
+    {
+      "english": "mortal",
+      "group": "lesson-30",
+      "order": 2
+    },
+    {
+      "english": "novel",
+      "group": "lesson-30",
+      "order": 3
+    },
+    {
+      "english": "occupant",
+      "group": "lesson-30",
+      "order": 4
+    },
+    {
+      "english": "appoint",
+      "group": "lesson-30",
+      "order": 5
+    },
+    {
+      "english": "quarter",
+      "group": "lesson-30",
+      "order": 6
+    },
+    {
+      "english": "site",
+      "group": "lesson-30",
+      "order": 7
+    },
+    {
+      "english": "quote",
+      "group": "lesson-30",
+      "order": 8
+    },
+    {
+      "english": "verse",
+      "group": "lesson-30",
+      "order": 9
+    },
+    {
+      "english": "morality",
+      "group": "lesson-30",
+      "order": 10
+    },
+    {
+      "english": "roam",
+      "group": "lesson-30",
+      "order": 11
+    },
+    {
+      "english": "attract",
+      "group": "lesson-30",
+      "order": 12
+    },
+    {
+      "english": "commuter",
+      "group": "lesson-31",
+      "order": 1
+    },
+    {
+      "english": "confine",
+      "group": "lesson-31",
+      "order": 2
+    },
+    {
+      "english": "idle",
+      "group": "lesson-31",
+      "order": 3
+    },
+    {
+      "english": "idol",
+      "group": "lesson-31",
+      "order": 4
+    },
+    {
+      "english": "jest",
+      "group": "lesson-31",
+      "order": 5
+    },
+    {
+      "english": "patriotic",
+      "group": "lesson-31",
+      "order": 6
+    },
+    {
+      "english": "dispute",
+      "group": "lesson-31",
+      "order": 7
+    },
+    {
+      "english": "valor",
+      "group": "lesson-31",
+      "order": 8
+    },
+    {
+      "english": "lunatic",
+      "group": "lesson-31",
+      "order": 9
+    },
+    {
+      "english": "vein",
+      "group": "lesson-31",
+      "order": 10
+    },
+    {
+      "english": "uneventful",
+      "group": "lesson-31",
+      "order": 11
+    },
+    {
+      "english": "fertile",
+      "group": "lesson-31",
+      "order": 12
+    },
+    {
+      "english": "refer",
+      "group": "lesson-32",
+      "order": 1
+    },
+    {
+      "english": "distress",
+      "group": "lesson-32",
+      "order": 2
+    },
+    {
+      "english": "diminish",
+      "group": "lesson-32",
+      "order": 3
+    },
+    {
+      "english": "maximum",
+      "group": "lesson-32",
+      "order": 4
+    },
+    {
+      "english": "flee",
+      "group": "lesson-32",
+      "order": 5
+    },
+    {
+      "english": "vulnerable",
+      "group": "lesson-32",
+      "order": 6
+    },
+    {
+      "english": "signify",
+      "group": "lesson-32",
+      "order": 7
+    },
+    {
+      "english": "mythology",
+      "group": "lesson-32",
+      "order": 8
+    },
+    {
+      "english": "provide",
+      "group": "lesson-32",
+      "order": 9
+    },
+    {
+      "english": "colleague",
+      "group": "lesson-32",
+      "order": 10
+    },
+    {
+      "english": "torment",
+      "group": "lesson-32",
+      "order": 11
+    },
+    {
+      "english": "loyalty",
+      "group": "lesson-32",
+      "order": 12
+    },
+    {
+      "english": "volunteer",
+      "group": "lesson-33",
+      "order": 1
+    },
+    {
+      "english": "prejudice",
+      "group": "lesson-33",
+      "order": 2
+    },
+    {
+      "english": "shrill",
+      "group": "lesson-33",
+      "order": 3
+    },
+    {
+      "english": "jolly",
+      "group": "lesson-33",
+      "order": 4
+    },
+    {
+      "english": "witty",
+      "group": "lesson-33",
+      "order": 5
+    },
+    {
+      "english": "hinder",
+      "group": "lesson-33",
+      "order": 6
+    },
+    {
+      "english": "lecture",
+      "group": "lesson-33",
+      "order": 7
+    },
+    {
+      "english": "abuse",
+      "group": "lesson-33",
+      "order": 8
+    },
+    {
+      "english": "mumble",
+      "group": "lesson-33",
+      "order": 9
+    },
+    {
+      "english": "mute",
+      "group": "lesson-33",
+      "order": 10
+    },
+    {
+      "english": "wad",
+      "group": "lesson-33",
+      "order": 11
+    },
+    {
+      "english": "retain",
+      "group": "lesson-33",
+      "order": 12
+    },
+    {
+      "english": "candidate",
+      "group": "lesson-34",
+      "order": 1
+    },
+    {
+      "english": "precede",
+      "group": "lesson-34",
+      "order": 2
+    },
+    {
+      "english": "adolescent",
+      "group": "lesson-34",
+      "order": 3
+    },
+    {
+      "english": "coeducational",
+      "group": "lesson-34",
+      "order": 4
+    },
+    {
+      "english": "radical",
+      "group": "lesson-34",
+      "order": 5
+    },
+    {
+      "english": "spontaneous",
+      "group": "lesson-34",
+      "order": 6
+    },
+    {
+      "english": "skim",
+      "group": "lesson-34",
+      "order": 7
+    },
+    {
+      "english": "vaccinate",
+      "group": "lesson-34",
+      "order": 8
+    },
+    {
+      "english": "untidy",
+      "group": "lesson-34",
+      "order": 9
+    },
+    {
+      "english": "utensil",
+      "group": "lesson-34",
+      "order": 10
+    },
+    {
+      "english": "sensitive",
+      "group": "lesson-34",
+      "order": 11
+    },
+    {
+      "english": "temperate",
+      "group": "lesson-34",
+      "order": 12
+    },
+    {
+      "english": "vague",
+      "group": "lesson-35",
+      "order": 1
+    },
+    {
+      "english": "elevate",
+      "group": "lesson-35",
+      "order": 2
+    },
+    {
+      "english": "lottery",
+      "group": "lesson-35",
+      "order": 3
+    },
+    {
+      "english": "finance",
+      "group": "lesson-35",
+      "order": 4
+    },
+    {
+      "english": "obtain",
+      "group": "lesson-35",
+      "order": 5
+    },
+    {
+      "english": "cinema",
+      "group": "lesson-35",
+      "order": 6
+    },
+    {
+      "english": "event",
+      "group": "lesson-35",
+      "order": 7
+    },
+    {
+      "english": "discard",
+      "group": "lesson-35",
+      "order": 8
+    },
+    {
+      "english": "soar",
+      "group": "lesson-35",
+      "order": 9
+    },
+    {
+      "english": "subsequent",
+      "group": "lesson-35",
+      "order": 10
+    },
+    {
+      "english": "relate",
+      "group": "lesson-35",
+      "order": 11
+    },
+    {
+      "english": "stationary",
+      "group": "lesson-35",
+      "order": 12
+    },
+    {
+      "english": "prompt",
+      "group": "lesson-36",
+      "order": 1
+    },
+    {
+      "english": "hasty",
+      "group": "lesson-36",
+      "order": 2
+    },
+    {
+      "english": "scorch",
+      "group": "lesson-36",
+      "order": 3
+    },
+    {
+      "english": "tempest",
+      "group": "lesson-36",
+      "order": 4
+    },
+    {
+      "english": "soothe",
+      "group": "lesson-36",
+      "order": 5
+    },
+    {
+      "english": "sympathetic",
+      "group": "lesson-36",
+      "order": 6
+    },
+    {
+      "english": "redeem",
+      "group": "lesson-36",
+      "order": 7
+    },
+    {
+      "english": "resume",
+      "group": "lesson-36",
+      "order": 8
+    },
+    {
+      "english": "harmony",
+      "group": "lesson-36",
+      "order": 9
+    },
+    {
+      "english": "refrain",
+      "group": "lesson-36",
+      "order": 10
+    },
+    {
+      "english": "illegal",
+      "group": "lesson-36",
+      "order": 11
+    },
+    {
+      "english": "narcotic",
+      "group": "lesson-36",
+      "order": 12
+    },
+    {
+      "english": "heir",
+      "group": "lesson-37",
+      "order": 1
+    },
+    {
+      "english": "majestic",
+      "group": "lesson-37",
+      "order": 2
+    },
+    {
+      "english": "dwindle",
+      "group": "lesson-37",
+      "order": 3
+    },
+    {
+      "english": "surplus",
+      "group": "lesson-37",
+      "order": 4
+    },
+    {
+      "english": "traitor",
+      "group": "lesson-37",
+      "order": 5
+    },
+    {
+      "english": "deliberate",
+      "group": "lesson-37",
+      "order": 6
+    },
+    {
+      "english": "vandal",
+      "group": "lesson-37",
+      "order": 7
+    },
+    {
+      "english": "drought",
+      "group": "lesson-37",
+      "order": 8
+    },
+    {
+      "english": "abide",
+      "group": "lesson-37",
+      "order": 9
+    },
+    {
+      "english": "unify",
+      "group": "lesson-37",
+      "order": 10
+    },
+    {
+      "english": "summit",
+      "group": "lesson-37",
+      "order": 11
+    },
+    {
+      "english": "heed",
+      "group": "lesson-37",
+      "order": 12
+    },
+    {
+      "english": "biography",
+      "group": "lesson-38",
+      "order": 1
+    },
+    {
+      "english": "drench",
+      "group": "lesson-38",
+      "order": 2
+    },
+    {
+      "english": "swarm",
+      "group": "lesson-38",
+      "order": 3
+    },
+    {
+      "english": "wobble",
+      "group": "lesson-38",
+      "order": 4
+    },
+    {
+      "english": "tumult",
+      "group": "lesson-38",
+      "order": 5
+    },
+    {
+      "english": "kneel",
+      "group": "lesson-38",
+      "order": 6
+    },
+    {
+      "english": "dejected",
+      "group": "lesson-38",
+      "order": 7
+    },
+    {
+      "english": "obedient",
+      "group": "lesson-38",
+      "order": 8
+    },
+    {
+      "english": "recede",
+      "group": "lesson-38",
+      "order": 9
+    },
+    {
+      "english": "tyrant",
+      "group": "lesson-38",
+      "order": 10
+    },
+    {
+      "english": "charity",
+      "group": "lesson-38",
+      "order": 11
+    },
+    {
+      "english": "verdict",
+      "group": "lesson-38",
+      "order": 12
+    },
+    {
+      "english": "unearth",
+      "group": "lesson-39",
+      "order": 1
+    },
+    {
+      "english": "depart",
+      "group": "lesson-39",
+      "order": 2
+    },
+    {
+      "english": "coincide",
+      "group": "lesson-39",
+      "order": 3
+    },
+    {
+      "english": "cancel",
+      "group": "lesson-39",
+      "order": 4
+    },
+    {
+      "english": "debtor",
+      "group": "lesson-39",
+      "order": 5
+    },
+    {
+      "english": "legible",
+      "group": "lesson-39",
+      "order": 6
+    },
+    {
+      "english": "placard",
+      "group": "lesson-39",
+      "order": 7
+    },
+    {
+      "english": "contagious",
+      "group": "lesson-39",
+      "order": 8
+    },
+    {
+      "english": "clergy",
+      "group": "lesson-39",
+      "order": 9
+    },
+    {
+      "english": "customary",
+      "group": "lesson-39",
+      "order": 10
+    },
+    {
+      "english": "transparent",
+      "group": "lesson-39",
+      "order": 11
+    },
+    {
+      "english": "scald",
+      "group": "lesson-39",
+      "order": 12
+    },
+    {
+      "english": "epidemic",
+      "group": "lesson-40",
+      "order": 1
+    },
+    {
+      "english": "obesity",
+      "group": "lesson-40",
+      "order": 2
+    },
+    {
+      "english": "magnify",
+      "group": "lesson-40",
+      "order": 3
+    },
+    {
+      "english": "chiropractor",
+      "group": "lesson-40",
+      "order": 4
+    },
+    {
+      "english": "obstacle",
+      "group": "lesson-40",
+      "order": 5
+    },
+    {
+      "english": "ventilate",
+      "group": "lesson-40",
+      "order": 6
+    },
+    {
+      "english": "jeopardize",
+      "group": "lesson-40",
+      "order": 7
+    },
+    {
+      "english": "negative",
+      "group": "lesson-40",
+      "order": 8
+    },
+    {
+      "english": "pension",
+      "group": "lesson-40",
+      "order": 9
+    },
+    {
+      "english": "vital",
+      "group": "lesson-40",
+      "order": 10
+    },
+    {
+      "english": "municipal",
+      "group": "lesson-40",
+      "order": 11
+    },
+    {
+      "english": "oral",
+      "group": "lesson-40",
+      "order": 12
+    },
+    {
+      "english": "complacent",
+      "group": "lesson-41",
+      "order": 1
+    },
+    {
+      "english": "wasp",
+      "group": "lesson-41",
+      "order": 2
+    },
+    {
+      "english": "rehabilitate",
+      "group": "lesson-41",
+      "order": 3
+    },
+    {
+      "english": "parole",
+      "group": "lesson-41",
+      "order": 4
+    },
+    {
+      "english": "vertical",
+      "group": "lesson-41",
+      "order": 5
+    },
+    {
+      "english": "multitude",
+      "group": "lesson-41",
+      "order": 6
+    },
+    {
+      "english": "nominate",
+      "group": "lesson-41",
+      "order": 7
+    },
+    {
+      "english": "potential",
+      "group": "lesson-41",
+      "order": 8
+    },
+    {
+      "english": "morgue",
+      "group": "lesson-41",
+      "order": 9
+    },
+    {
+      "english": "preoccupied",
+      "group": "lesson-41",
+      "order": 10
+    },
+    {
+      "english": "upholstery",
+      "group": "lesson-41",
+      "order": 11
+    },
+    {
+      "english": "indifference",
+      "group": "lesson-41",
+      "order": 12
+    },
+    {
+      "english": "maintain",
+      "group": "lesson-42",
+      "order": 1
+    },
+    {
+      "english": "snub",
+      "group": "lesson-42",
+      "order": 2
+    },
+    {
+      "english": "endure",
+      "group": "lesson-42",
+      "order": 3
+    },
+    {
+      "english": "wrath",
+      "group": "lesson-42",
+      "order": 4
+    },
+    {
+      "english": "expose",
+      "group": "lesson-42",
+      "order": 5
+    },
+    {
+      "english": "legend",
+      "group": "lesson-42",
+      "order": 6
+    },
+    {
+      "english": "ponder",
+      "group": "lesson-42",
+      "order": 7
+    },
+    {
+      "english": "resign",
+      "group": "lesson-42",
+      "order": 8
+    },
+    {
+      "english": "drastic",
+      "group": "lesson-42",
+      "order": 9
+    },
+    {
+      "english": "wharf",
+      "group": "lesson-42",
+      "order": 10
+    },
+    {
+      "english": "amend",
+      "group": "lesson-42",
+      "order": 11
+    },
+    {
+      "english": "ballot",
+      "group": "lesson-42",
+      "order": 12
+    }
+  ]
+}
