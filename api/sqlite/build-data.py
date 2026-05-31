@@ -210,7 +210,7 @@ def main() -> None:
     # dataset_meta
     meta = [
         ("schema_version", "1.0.0"),
-        ("dataset_version", "0.8.0"),
+        ("dataset_version", "0.8.1"),
         ("license", "MIT"),
         ("homepage", "https://github.com/amirj4m/openjam"),
         (
